@@ -1,0 +1,9 @@
+DS_Store
+.git
+test
+a.out
+main.c
+ft_putchar.c
+ft_putdigit.c
+ft_test.c
+
