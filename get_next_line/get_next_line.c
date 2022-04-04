@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:28:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/04 11:10:23 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/04 12:18:55 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*get_next_line(int fd)
 	tmp = NULL;
 	if (str_next != NULL)
 	{
+		/* tmp가 null이 될 수 있다. 다른 방법으로 마지막 자리를 탐색할까? */
 		tmp = ft_strchr(++str_next, (int) '\n');
 		ret = ft_strndup(str_next, (tmp - str_next + 1));
 		*tmp = '\0';
@@ -34,8 +35,8 @@ char	*get_next_line(int fd)
 			return (ret);
 		}
 		free(str_next);
+		str_next = NULL;
 	}
-	str_next = NULL;
 	while (str_next == NULL)
 	{
 		next_buffer = get_line(fd, &str_next);
