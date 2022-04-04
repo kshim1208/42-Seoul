@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:28:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/04 13:07:27 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/04 15:32:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,15 @@ char	*get_next_line(int fd)
 
 	ret = NULL;
 	tmp = NULL;
-	/* 정상적으로 첫 번째 라인을 출력한 뒤, 두 번째 라인부터 들어오고 있음. 다시 한 번 조건문 내부를 잘 봐야할 듯*/
 	if (str_next != NULL)
 	{
-		tmp = ft_strchr(++str_next, (int) '\n');
+		tmp = ft_strchr(str_next, (int) '\n');
 		if (tmp == NULL)
-			len = ft_strlen(str_next) + 1;
+			len = ft_strlen(str_next);
 		else
 			len = (size_t)(tmp - str_next + 1);
 		ret = ft_strndup(str_next, len);
-		*(str_next + len) = '\0';
-		if (str_next != NULL)
+		if (*(str_next + len) != '\0')
 		{
 			tmp = ft_strdup(str_next + len);
 			free(str_next);
