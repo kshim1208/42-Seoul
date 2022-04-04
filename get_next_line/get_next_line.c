@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:28:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/04 12:18:55 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/04 13:07:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,23 @@ char	*get_next_line(int fd)
 	char		*next_buffer;
 	char		*ret;
 	char		*tmp;
+	size_t		len;
 
 	ret = NULL;
 	tmp = NULL;
+	/* 정상적으로 첫 번째 라인을 출력한 뒤, 두 번째 라인부터 들어오고 있음. 다시 한 번 조건문 내부를 잘 봐야할 듯*/
 	if (str_next != NULL)
 	{
-		/* tmp가 null이 될 수 있다. 다른 방법으로 마지막 자리를 탐색할까? */
 		tmp = ft_strchr(++str_next, (int) '\n');
-		ret = ft_strndup(str_next, (tmp - str_next + 1));
-		*tmp = '\0';
+		if (tmp == NULL)
+			len = ft_strlen(str_next) + 1;
+		else
+			len = (size_t)(tmp - str_next + 1);
+		ret = ft_strndup(str_next, len);
+		*(str_next + len) = '\0';
 		if (str_next != NULL)
 		{
-			tmp = ft_strdup(str_next + (tmp - str_next + 1));
+			tmp = ft_strdup(str_next + len);
 			free(str_next);
 			str_next = tmp;
 			return (ret);
@@ -50,12 +55,11 @@ char	*get_next_line(int fd)
 		}
 		if (str_next != NULL)
 		{
-			str_next = next_buffer;
+			free(next_buffer);
 			break ;
 		}
 		free(next_buffer);
 	}
-	*str_next = '\0';
 	return (ret);
 }
 
