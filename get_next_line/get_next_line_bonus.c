@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:05:37 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/08 15:26:21 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/10 18:13:43 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,89 +16,67 @@ char	*get_next_line(int fd)
 {
 	static t_lst	*gnl_head;
 	t_lst			*work_lst;
+	char			*ret;
 
 	if (fd < 0)
 		return (NULL);
+	ret = NULL;
 	work_lst = gnl_select_lst(fd, &gnl_head);
-	while (work_lst -> str_next == NULL || work_lst -> ret == NULL)
+	if (work_lst == NULL)
+		return (NULL);
+	while (work_lst -> str_next == NULL || ret == NULL)
 	{
-		work_lst -> buffer = get_buffer(fd, &(work_lst -> str_next),
-				&(work_lst -> check_eof));
-		if (work_lst -> check_eof <= 0 || work_lst -> buffer == NULL)
+		work_lst -> check_result = get_buffer(fd, &(work_lst -> str_next),
+				&(work_lst -> buffer));
+		if (work_lst -> check_result <= 0 || work_lst -> buffer == NULL)
 			break ;
-		process_buffer(&(work_lst -> str_next), &(work_lst -> buffer),
-			&(work_lst -> ret));
-		if (work_lst -> ret == NULL)
+		work_lst -> check_result = process_buffer(&(work_lst -> str_next),
+				&(work_lst -> buffer), &ret);
+		if (work_lst -> check_result <= -2)
 			break ;
+		free(work_lst -> buffer);
+		work_lst -> buffer = NULL;
 	}
 	free_gnl(&(work_lst -> str_next), &(work_lst -> buffer),
-		&(work_lst -> ret), work_lst -> check_eof);
-	return (work_lst -> ret);
+		&ret, work_lst -> check_result);
+	if (work_lst -> check_result == 0 || work_lst -> check_result == -1)
+		free_lst(&gnl_head, &work_lst);
+	return (ret);
 }
 
 t_lst	*gnl_select_lst(int fd, t_lst **gnl_head)
 {
 	t_lst	*work_lst;
-	t_lst	*tmp;
+	int		how_many;
 
-	work_lst = NULL;
-	if (*gnl_head == NULL)
-	{
-		*gnl_head = (t_lst *)malloc(sizeof(t_lst));
-		work_lst = *gnl_head;
-		work_lst -> saved_fd = fd;
-	}
-	else
-	{
-		tmp = *gnl_head;
-		while (tmp != NULL)
+	work_lst = *gnl_head;
+	how_many = 0;
+	while (++how_many)
+	{	
+		if (work_lst == NULL)
 		{
-			if (tmp -> saved_fd == fd)
-				work_lst = tmp;
-			tmp = tmp -> next;
-			return (work_lst);
+			work_lst = (t_lst *)malloc(sizeof(t_lst));
+			if (work_lst == NULL)
+				return (NULL);
+			if (how_many == 1)
+				*gnl_head = work_lst;
+			break ;
 		}
-		tmp -> next = work_lst;
-		work_lst = (t_lst *)malloc(sizeof(t_lst));
+		if (work_lst -> saved_fd == fd)
+			return (work_lst);
+		work_lst = work_lst -> next;
 	}
+	work_lst -> saved_fd = fd;
+	work_lst -> str_next = NULL;
+	work_lst -> buffer = NULL;
+	work_lst -> next = NULL;
 	return (work_lst);
 }
 
-char	*get_buffer(int fd, char **str_next, ssize_t *check_eof)
-{
-	char		*buffer;
-
-	if (*str_next != NULL)
-	{
-		buffer = *str_next;
-		*str_next = NULL;
-	}
-	else
-	{
-		buffer = (char *)malloc(BUFFER_SIZE + 1);
-		if (buffer == NULL)
-			return (NULL);
-		*check_eof = read(fd, buffer, BUFFER_SIZE);
-		if (*check_eof <= 0)
-			return (buffer);
-		buffer[*check_eof] = '\0';
-	}
-	return (buffer);
-}
-
-void	process_buffer(char **str_next, char **buffer, char **ret)
+ssize_t	process_buffer(char **str_next, char **buffer, char **ret)
 {
 	char	*tmp;
 
-	*str_next = ft_strchr(*buffer, (int) '\n');
-	if (*str_next != NULL)
-	{
-		tmp = ft_strndup(*buffer, (*str_next - *buffer + 1));
-		*str_next = ft_strndup(*buffer + (*str_next - *buffer + 1),
-				ft_strlen(*buffer + (*str_next - *buffer + 1)));
-		free(*buffer);
-		*buffer = tmp;
-	}
 	if (*ret == NULL)
 		*ret = ft_strjoin("", *buffer);
 	else
@@ -107,26 +85,61 @@ void	process_buffer(char **str_next, char **buffer, char **ret)
 		free(*ret);
 		*ret = tmp;
 	}
-	free(*buffer);
-	*buffer = NULL;
+	if (*ret == NULL)
+		return (-2);
+	*str_next = ft_strchr(*ret, (int) '\n');
+	if (*str_next != NULL)
+	{
+		tmp = ft_strndup(*ret, (*str_next - *ret + 1));
+		if (tmp == NULL)
+			return (-3);
+		*str_next = ft_strndup(*ret + (*str_next - *ret + 1),
+				ft_strlen(*ret + (*str_next - *ret + 1)));
+		if (*str_next == NULL)
+		{
+			free(tmp);
+			return (-3);
+		}
+		free(*ret);
+		*ret = tmp;
+	}
+	return (1);
 }
 
-
-void	free_gnl(char **str_next, char **buffer, char **ret, ssize_t check_eof)
+void	free_gnl(char **str_next, char **buffer, char **ret,
+		ssize_t check_result)
 {
-	if (check_eof <= 0)
+	if (check_result <= 0)
 	{
 		free(*buffer);
 		*buffer = NULL;
 	}
-	if (check_eof == -1 && *ret != NULL)
-	{
-		free(*ret);
-		*ret = NULL;
-	}
-	if (*str_next != NULL && **str_next == '\0')
+	if ((check_result <= 0 && *str_next != NULL)
+		|| ((*str_next != NULL) && (**str_next == '\0')))
 	{
 		free(*str_next);
 		*str_next = NULL;
 	}
+	if (check_result == -1 && *ret != NULL)
+	{
+		free(*ret);
+		*ret = NULL;
+	}
+}
+
+void	free_lst(t_lst **gnl_head, t_lst **work_lst)
+{
+	t_lst	*tmp;
+
+	tmp = *gnl_head;
+	if (tmp == *work_lst)
+		*gnl_head = (*work_lst)-> next;
+	else
+	{
+		while (tmp -> next != *work_lst)
+			tmp = tmp -> next;
+	}
+	tmp -> next = (*work_lst)-> next;
+	free(*work_lst);
+	*work_lst = NULL;
 }

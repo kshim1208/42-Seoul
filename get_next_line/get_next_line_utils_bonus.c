@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:10:38 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/08 15:26:54 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/10 18:12:22 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
@@ -87,24 +87,28 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-char	*get_buffer(int fd, char **str_next, ssize_t *check_eof)
+ssize_t get_buffer(int fd, char **str_next, char **buffer)
 {
-	char		*buffer;
+	ssize_t	check_result;
 
+	check_result = 0;
+	if (*buffer != NULL)
+		return (ft_strlen(*buffer));
 	if (*str_next != NULL)
 	{
-		buffer = *str_next;
+		*buffer = *str_next;
 		*str_next = NULL;
+		check_result = ft_strlen(*buffer);
 	}
 	else
 	{
-		buffer = (char *)malloc(BUFFER_SIZE + 1);
-		if (buffer == NULL)
-			return (NULL);
-		*check_eof = read(fd, buffer, BUFFER_SIZE);
-		if (*check_eof <= 0)
-			return (buffer);
-		buffer[*check_eof] = '\0';
+		*buffer = (char *)malloc(BUFFER_SIZE + 1);
+		if (*buffer == NULL)
+			return (-2);
+		check_result = read(fd, *buffer, BUFFER_SIZE);
+		if (check_result <= 0)
+			return (check_result);
+		(*buffer)[check_result] = '\0';
 	}
-	return (buffer);
+	return (check_result);
 }
