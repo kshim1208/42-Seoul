@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 15:05:02 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/04 10:17:07 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/12 14:42:10 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,52 +40,6 @@ char	*ft_strchr(const char *s, int c)
 	return ((char *)(s + i));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	i;
-	size_t	j;
-	size_t	len;
-	char	*str;
-
-	len = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < len && s1[j] != '\0')
-	{
-		str[i++] = s1[j++];
-	}
-	j = 0;
-	while (i < len && s2[j] != '\0')
-	{
-		str[i++] = s2[j++];
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*str;
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen(s1);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[len] = '\0';
-	return (str);
-}
-
 char	*ft_strndup(const char *s1, size_t n)
 {
 	char	*str;
@@ -105,5 +59,30 @@ char	*ft_strndup(const char *s1, size_t n)
 		i++;
 	}
 	str[len] = '\0';
+	return (str);
+}
+
+char	*join_buffer_to_ret(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	char	*str;
+
+	if (s1 == NULL)
+		len = ft_strlen(s2);
+	else
+		len = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < len && s1 != NULL && s1[i] != '\0')
+		str[i++] = s1[j++];
+	j = 0;
+	while (i < len && s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[i] = '\0';
 	return (str);
 }
