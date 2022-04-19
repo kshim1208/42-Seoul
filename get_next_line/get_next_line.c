@@ -6,11 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:28:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/12 14:56:32 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/14 08:55:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static ssize_t	get_buffer(int fd, char **str_next, char **buffer);
+static ssize_t	process_buffer(char **str_next, char **buffer, char **ret);
+static char		*join_buffer_to_ret(char const *s1, char const *s2);
 
 char	*get_next_line(int fd)
 {
@@ -29,14 +33,14 @@ char	*get_next_line(int fd)
 		if (check_result <= 0 || buffer == NULL)
 			break ;
 		check_result = process_buffer(&str_next, &buffer, &ret);
-		if (check_result <= -1)
+		if (check_result == -1)
 			break ;
 	}
-	free_gnl(&str_next, &buffer, &ret, check_result);
+	ft_free_gnl(&str_next, &buffer, &ret, check_result);
 	return (ret);
 }
 
-ssize_t	get_buffer(int fd, char **str_next, char **buffer)
+static ssize_t	get_buffer(int fd, char **str_next, char **buffer)
 {
 	ssize_t	check_result;
 
@@ -65,7 +69,7 @@ ssize_t	get_buffer(int fd, char **str_next, char **buffer)
 	return (check_result);
 }
 
-ssize_t	process_buffer(char **str_next, char **buffer, char **ret)
+static ssize_t	process_buffer(char **str_next, char **buffer, char **ret)
 {
 	char	*tmp;
 
@@ -94,20 +98,27 @@ ssize_t	process_buffer(char **str_next, char **buffer, char **ret)
 	return (1);
 }
 
-void	free_gnl(char **str_next, char **buffer, char **ret,
-		ssize_t check_result)
+static char	*join_buffer_to_ret(char const *s1, char const *s2)
 {
-	free(*buffer);
-	*buffer = NULL;
-	if ((check_result <= 0 && *str_next != NULL)
-		|| (*str_next != NULL && **str_next == '\0'))
-	{
-		free(*str_next);
-		*str_next = NULL;
-	}
-	if (check_result == -1 && *ret != NULL)
-	{
-		free(*ret);
-		*ret = NULL;
-	}
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	char	*str;
+
+	if (s1 == NULL)
+		len = ft_strlen(s2);
+	else
+		len = ft_strlen(s1) + ft_strlen(s2);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < len && s1 != NULL && s1[i] != '\0')
+		str[i++] = s1[j++];
+	j = 0;
+	while (i < len && s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	return (str);
 }

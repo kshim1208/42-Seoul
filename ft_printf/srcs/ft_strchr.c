@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/07 16:53:19 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/24 08:47:46 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stddef.h>
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+	char	x;
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	i = 0;
+	x = (char)c;
+	while (s[i] != x)
+	{
+		if (s[i] == '\0')
+			return (NULL);
+		i++;
+	}
+	return ((char *)(s + i));
+}

@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/14 12:57:35 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/21 13:55:46 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+char	*ft_strdup(const char *s1)
+{
+	char	*str;
+	size_t	len;
+	size_t	i;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	len = ft_strlen(s1);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[len] = '\0';
+	return (str);
+}

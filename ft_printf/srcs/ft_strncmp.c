@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/10 13:35:25 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/21 15:47:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stddef.h>
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t			i;
+	unsigned char	a;
+	unsigned char	b;
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	i = 0;
+	while (s1[i] != '\0' && i < n)
+	{
+		a = s1[i];
+		b = s2[i];
+		if ((a - b) > 0)
+			return (1);
+		else if ((a - b) < 0)
+			return (-1);
+		i++;
+	}
+	if (s2[i] != '\0' && i < n)
+		return (-1);
+	return (0);
+}

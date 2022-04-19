@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/14 19:20:35 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/24 09:16:42 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+int	ft_lstsize(t_list *lst)
+{
+	int	len;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	len = 1;
+	if (lst == NULL)
+		return (0);
+	while (lst -> next != NULL)
+	{
+		len++;
+		lst = lst -> next;
+	}
+	return (len);
+}

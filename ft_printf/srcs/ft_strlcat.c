@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/07 16:38:33 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/21 14:14:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <stdlib.h>
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	deslen;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	i = 0;
+	deslen = ft_strlen(dest);
+	if (size <= deslen)
+		return (size + ft_strlen(src));
+	while (src[i] != '\0' && deslen + i + 1 < size)
+	{
+		dest[deslen + i] = src[i];
+		i++;
+	}
+	if (size > 0)
+		dest[deslen + i] = '\0';
+	return (deslen + ft_strlen(src));
+}

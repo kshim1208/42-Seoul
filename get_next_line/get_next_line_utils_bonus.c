@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:10:38 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/12 15:42:17 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/14 08:57:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line_bonus.h"
@@ -61,58 +61,41 @@ char	*ft_strchr(const char *s, int c)
 	return ((char *)(s + i));
 }
 
-char	*join_buffer_to_ret(char *s1, char *s2)
+void	ft_free_elements_gnl(t_lst *lst, char **ret)
 {
-	size_t	i;
-	size_t	j;
-	size_t	len;
-	char	*str;
-
-	if (s1 == NULL)
-		len = ft_strlen(s2);
-	else
-		len = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < len && s1 != NULL && s1[i] != '\0')
-		str[i++] = s1[j++];
-	j = 0;
-	if (s1 != NULL)
-		free(s1);
-	while (i < len && s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	return (str);
-}
-
-ssize_t	get_buffer(int fd, t_lst *lst)
-{
-	ssize_t	check_result;
-
-	check_result = 0;
 	if (lst -> buffer != NULL)
 	{
 		free(lst -> buffer);
 		lst -> buffer = NULL;
 	}
-	if (lst -> str_next != NULL)
+	if ((lst -> check_result <= 0 && lst -> str_next != NULL)
+		|| ((lst -> str_next != NULL) && (*(lst -> str_next) == '\0')))
 	{
-		lst -> buffer = lst -> str_next;
+		free(lst -> str_next);
 		lst -> str_next = NULL;
-		check_result = ft_strlen(lst -> buffer);
 	}
+	if (lst -> check_result == -1 && *ret != NULL)
+	{
+		free(*ret);
+		*ret = NULL;
+	}
+	return ;
+}
+
+void	ft_free_lst_gnl(t_lst **head, t_lst **lst)
+{
+	t_lst	*tmp;
+
+	tmp = *head;
+	if (*head == *lst)
+		*head = (*lst)-> next;
 	else
 	{
-		lst -> buffer = (char *)malloc(BUFFER_SIZE + 1);
-		if (lst -> buffer == NULL)
-			return (-1);
-		check_result = read(fd, lst -> buffer, BUFFER_SIZE);
-		if (check_result <= 0)
-			return (check_result);
-		(lst -> buffer)[check_result] = '\0';
+		while (tmp -> next != *lst)
+			tmp = tmp -> next;
 	}
-	return (check_result);
+	tmp -> next = (*lst)-> next;
+	free(*lst);
+	*lst = NULL;
+	return ;
 }

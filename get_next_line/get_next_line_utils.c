@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 15:05:02 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/12 14:42:10 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/14 08:56:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,24 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-char	*join_buffer_to_ret(char const *s1, char const *s2)
+void	ft_free_gnl(char **str_next, char **buffer, char **ret,
+		ssize_t check_result)
 {
-	size_t	i;
-	size_t	j;
-	size_t	len;
-	char	*str;
-
-	if (s1 == NULL)
-		len = ft_strlen(s2);
-	else
-		len = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < len && s1 != NULL && s1[i] != '\0')
-		str[i++] = s1[j++];
-	j = 0;
-	while (i < len && s2[j] != '\0')
-		str[i++] = s2[j++];
-	str[i] = '\0';
-	return (str);
+	if (*buffer != NULL)
+	{
+		free(*buffer);
+		*buffer = NULL;
+	}
+	if ((check_result <= 0 && *str_next != NULL)
+		|| (*str_next != NULL && **str_next == '\0'))
+	{
+		free(*str_next);
+		*str_next = NULL;
+	}
+	if (check_result == -1 && *ret != NULL)
+	{
+		free(*ret);
+		*ret = NULL;
+	}
+	return ;
 }

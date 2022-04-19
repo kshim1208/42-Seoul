@@ -6,11 +6,16 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:05:37 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/12 16:29:15 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/14 08:47:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+static t_lst	*gnl_select_lst(int fd, t_lst **gnl_head);
+static ssize_t	get_buffer(int fd, t_lst *lst);
+static ssize_t	process_buffer(t_lst *lst, char **ret);
+static char		*join_buffer_to_ret(char **ret, char *buffer);
 
 char	*get_next_line(int fd)
 {
@@ -33,13 +38,13 @@ char	*get_next_line(int fd)
 		if (work_lst -> check_result == -1)
 			return (NULL);
 	}
-	free_gnl(work_lst, &ret);
+	ft_free_elements_gnl(work_lst, &ret);
 	if (work_lst -> check_result == 0 || work_lst -> check_result == -1)
-		free_lst(&gnl_head, &work_lst);
+		ft_free_lst_gnl(&gnl_head, &work_lst);
 	return (ret);
 }
 
-t_lst	*gnl_select_lst(int fd, t_lst **gnl_head)
+static t_lst	*gnl_select_lst(int fd, t_lst **gnl_head)
 {
 	t_lst	*work_lst;
 	t_lst	*tmp;
@@ -68,7 +73,36 @@ t_lst	*gnl_select_lst(int fd, t_lst **gnl_head)
 	return (work_lst);
 }
 
-ssize_t	process_buffer(t_lst *lst, char **ret)
+static ssize_t	get_buffer(int fd, t_lst *lst)
+{
+	ssize_t	check_result;
+
+	check_result = 0;
+	if (lst -> buffer != NULL)
+	{
+		free(lst -> buffer);
+		lst -> buffer = NULL;
+	}
+	if (lst -> str_next != NULL)
+	{
+		lst -> buffer = lst -> str_next;
+		lst -> str_next = NULL;
+		check_result = ft_strlen(lst -> buffer);
+	}
+	else
+	{
+		lst -> buffer = (char *)malloc(BUFFER_SIZE + 1);
+		if (lst -> buffer == NULL)
+			return (-1);
+		check_result = read(fd, lst -> buffer, BUFFER_SIZE);
+		if (check_result <= 0)
+			return (check_result);
+		(lst -> buffer)[check_result] = '\0';
+	}
+	return (check_result);
+}
+
+static ssize_t	process_buffer(t_lst *lst, char **ret)
 {
 	char	*tmp;
 	size_t	len_until_nextline;
@@ -90,45 +124,36 @@ ssize_t	process_buffer(t_lst *lst, char **ret)
 		free(lst -> buffer);
 		lst -> buffer = tmp;
 	}
-	tmp = join_buffer_to_ret(*ret, lst -> buffer);
+	tmp = join_buffer_to_ret(&(*ret), lst -> buffer);
 	if (tmp == NULL)
 		return (-1);
 	*ret = tmp;
 	return (1);
 }
 
-void	free_gnl(t_lst *lst, char **ret)
+static char	*join_buffer_to_ret(char **ret, char *buffer)
 {
-	free(lst -> buffer);
-	lst -> buffer = NULL;
-	if ((lst -> check_result <= 0 && lst -> str_next != NULL)
-		|| ((lst -> str_next != NULL) && (*(lst -> str_next) == '\0')))
-	{
-		free(lst -> str_next);
-		lst -> str_next = NULL;
-	}
-	if (lst -> check_result == -1 && *ret != NULL)
-	{
-		free(*ret);
-		*ret = NULL;
-	}
-	return ;
-}
+	size_t	i;
+	size_t	j;
+	size_t	len;
+	char	*str;
 
-void	free_lst(t_lst **head, t_lst **lst)
-{
-	t_lst	*tmp;
-
-	tmp = *head;
-	if (*head == *lst)
-		*head = (*lst)-> next;
+	if (*ret == NULL)
+		len = ft_strlen(buffer);
 	else
-	{
-		while (tmp -> next != *lst)
-			tmp = tmp -> next;
-	}
-	tmp -> next = (*lst)-> next;
-	free(*lst);
-	*lst = NULL;
-	return ;
+		len = ft_strlen(*ret) + ft_strlen(buffer);
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < len && *ret != NULL && (*ret)[j] != '\0')
+		str[i++] = (*ret)[j++];
+	if (*ret != NULL)
+		free(*ret);
+	j = 0;
+	while (i < len && buffer[j] != '\0')
+		str[i++] = buffer[j++];
+	str[i] = '\0';
+	return (str);
 }

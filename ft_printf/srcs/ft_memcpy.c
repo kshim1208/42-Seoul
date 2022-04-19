@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/24 12:32:27 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/14 09:02:40 by kshim            ###   ########.fr       */
+/*   Created: 2022/03/10 14:38:33 by kshim             #+#    #+#             */
+/*   Updated: 2022/03/24 08:35:23 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stddef.h>
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char		*str1;
+	const unsigned char	*str2;
+	size_t				i;
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 512
-# endif
-
-char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strndup(const char *s1, size_t n);
-void	ft_free_gnl(char **str_next, char **buffer, char **ret,
-			ssize_t check_result);
-
-#endif
+	if (dst == NULL && src == NULL)
+		return (dst);
+	str1 = (unsigned char *)dst;
+	str2 = (const unsigned char *)src;
+	i = 0;
+	while (i < n)
+	{
+		str1[i] = str2[i];
+		i++;
+	}
+	return (dst);
+}

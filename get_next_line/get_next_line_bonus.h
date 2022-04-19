@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 11:05:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/12 16:33:50 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/14 09:03:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 512
+# endif
 
 typedef struct s_gnl_lst
 {
@@ -26,14 +30,10 @@ typedef struct s_gnl_lst
 }					t_lst;
 
 char	*get_next_line(int fd);
-ssize_t	get_buffer(int fd, t_lst *lst);
-ssize_t	process_buffer(t_lst *lst, char **ret);
-void	free_gnl(t_lst *lst, char **ret);
-void	free_lst(t_lst **head, t_lst **lst);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strndup(const char *s1, size_t n);
-char	*join_buffer_to_ret(char *s1, char *s2);
-t_lst	*gnl_select_lst(int fd, t_lst **gnl_head);
+void	ft_free_elements_gnl(t_lst *lst, char **ret);
+void	ft_free_lst_gnl(t_lst **gnl_head, t_lst **lst);
 
 #endif
