@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 14:53:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/20 12:04:33 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:10:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* need to add del function to use ft_lstdelone & ft_lstclear */
 
 /* content와 lst 생성 및 연결만 하고 내용은 다른 함수에서 채운다 */
-t_lst	*set_new_content(t_fp_content_lst **lst_head, int is_format)
+t_lst	*make_new_content(t__lst **lst_head, int is_format)
 {
 	t_fp_content		new_content;
 	t_fp_content_lst	new_lst;
@@ -40,7 +40,7 @@ t_fp_content	*set_new_content(int is_format)
 	new_content -> format = is_format;
 	if (is_format == 1)
 		set_format_detail(new_content);
-	else 
+	else
 		new_content -> format_detail = NULL;
 	new_content -> output = NULL;
 	return (new_content);
@@ -56,12 +56,23 @@ void	*set_format_detail(t_fp_content *new_content)
 	new_formats -> width = 0;
 	new_formats -> alternate = 0;
 	new_formats -> zero_fill = 0;
-	new_formats -> space_fill = 0;
 	new_formats -> left_justify = 0;
 	new_formats -> sign = 0;
 	new_formats -> precision = 0;
 	new_formats -> prec_val = 0;
-	new_formats -> format_specifier = NULL;
+	new_formats -> fs = NULL;
 	new_content -> format_detatil = new_formats;
 	return ;
+}
+
+void	fp_del_content(t_fp_content *content)
+{
+	free(output);
+	output = NULL;
+	if (content -> format == 1)
+	{
+		free(content -> format_detail);
+		content -> format_detail = NULL;
+		content -> format = 0;
+	}
 }

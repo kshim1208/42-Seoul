@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/20 13:44:59 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:05:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,38 @@ int	ft_printf(const char *arg, ...)
 	if (*arg == "")
 		return (0);
 	va_start(ap, sizeof(uintptr_t));
-	ret = process_arg(arg, &ap, *lst_head);
+	ret = process_arg(arg, &ap, &lst_head);
 	if (ret == -1)
-		ft_lstclear();
+		ft_lstclear(&lst_head, fs_lst_del);
 	/* 만약 format specifier와 va 인자 개수가 다르면 예외 처리?? */
+	/* fs와 ap_pos의 데이터 타입이 다르면 예외처리? 이건 어떻게? 지금 하는 건 맞는 것 같은데? */
 	ret = process_output(lst_head);
 	if (ret == -1)
-		ft_lstclear();
+		ft_lstclear(&lst_head, fs_lst_del);
 	va_end(ap);
+	ret = print_output(lst_head);
+	if (ret == -1)
+		ft_lstclear(&lst_head, fs_lst_del);
+	/* ret 반환해서 초기화하는 함수만 3개인데, 이걸 한 함수에 넣고
+	 * 그 함수의 반환 값으로 한 번만 -1 돌려주는게 깔끔하지 않을까? */
+	/* 반환값 ret은 화면에 출력한 문자의 갯수 */
+	ft_lstclear(&lst_head, fs_lst_del);
 	return (ret);
 }
 
-int	process_arg(char *arg, va_list *ap, t_lst *lst_head)
+int	process_arg(char *arg, va_list *ap, t_lst **lst_head)
 {
 	int		percent_char;
 	char	*start;
 
-	lst_head == NULL;
+	*lst_head == NULL;
 	i = 0;
 	while (*arg != '\0')
 	{
 		percent_char = 0;
 		if (*arg == '%' && *(arg + 1) != '%')
 		{
-			arg = set_node_format(arg, ap, &lst_head);
+			arg = set_node_format(arg, ap, lst_head);
 			if (arg == NULL)
 				return (-1);
 		}
@@ -57,7 +65,7 @@ int	process_arg(char *arg, va_list *ap, t_lst *lst_head)
 			arg++;
 			percent_char = 1;
 		}
-		start = set_node_str(arg, start, &lst_head);
+		start = set_node_str(arg, start, lst_head);
 		if (start == NULL)
 			return (-1);
 		if (percent_char == 1)
@@ -75,7 +83,7 @@ char	*set_node_format(char *arg, va_list *ap, t_lst **lst_head)
 	tmp = arg + 1;
 	if (*tmp == '\0')
 		return (NULL);
-	new_lst = set_new_content(lst_head, 1);
+	new_lst = make_new_content(lst_head, 1);
 	if (new_lst == NULL)
 		return (NULL);
 	new_content = new_lst ->(t_fp_content *)content;
@@ -102,7 +110,7 @@ char	*set_node_str(char *arg, char *start, t_lst **lst_head)
 	if (str == NULL)
 		return (NULL);
 	len = ft_strlcpy(str, start, len);
-	new_lst = set_new_content(lst_head, 0);
+	new_lst = make_new_content(lst_head, 0);
 	if (new_lst == NULL)
 		return (NULL);
 	return (str);

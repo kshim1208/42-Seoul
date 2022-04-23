@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/20 13:11:56 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/23 12:57:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	is_flags(char *arg, t_fp_formats *new_formats, int *check)
 		*check = 2;
 	if (*arg == '.')
 		*check = 3;
-	if (check_format_specifier(arg) == 1)
+	if (check_fs(arg) == 1)
 		*check = 4;
 	if (is_flags_error(arg, new_formats) == -1)
 		return (-1);
@@ -81,7 +81,7 @@ int	is_width(char *arg, t_fp_formats *new_formats, int *check)
 		new_formats -> width = (new_formats -> width) * 10 + ((*arg) - '0');
 	else if (*arg == '.')
 		*check = 3;
-	else if (check_format_specifier(arg) == 1)
+	else if (check_fs(arg) == 1)
 		*check = 4;
 	else
 		return (-1);
@@ -96,7 +96,7 @@ int	is_precision(char *arg, t_fp_formats *new_formats, int *check)
 		new_formats -> precision = 1;
 	else if (*arg >= 0 && *arg <= 9)
 		new_formats -> prec_val = (new_formats -> prec_val) * 10 + ((*arg) - '0');
-	else if (check_format_specifier(arg) == 1)
+	else if (check_fs(arg) == 1)
 		*check = 4;
 	else 
 		return (-1);
