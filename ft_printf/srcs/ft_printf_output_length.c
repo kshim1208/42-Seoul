@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:09:41 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:52:26 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,23 @@ size_t	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
 	else
 		data -> output_len = (data -> output_len) + 2;
 	return ;
+}
+
+int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
+{
+	size_t	i;
+	
+	i = 0;
+	if (formats -> fs == 's')
+		data -> processed_ap = formats -> ap_pos;
+	else if (formats -> fs == 'c')
+	{
+		data -> processed_ap = (char *)malloc((data -> ap_len) + 1);
+		if (data -> processed_ap == NULL)
+			return (-1);
+	}	
+	else if (formats -> fs == 'd' || formats -> fs == 'i'
+			|| formats -> fs == 'x' || formats -> fs == 'X' || foramts -> fs == 'p')
+		data -> processed_ap = ft_itoa_base();
+	return (-1);
 }

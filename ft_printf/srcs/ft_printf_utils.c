@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 09:02:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:01:29 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/23 15:41:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,5 @@ size_t	ft_us_long_long_len(unsigned long long addr, int base)
 	}
 	return (i);
 }
+
+/* data 구조체들 초기화 및 해제 필요 char *processed_ap랑 t_fp_str 자체 */
