@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:52:26 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 10:06:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	len_of_ap(t_fp_content *content, t_fp_str *data)
 	if (formats -> fs == s)
 		data -> ap_len = ft_strlen(formats -> ap_pos);
 	if (formats -> fs == p)
-		dara -> ap_len = ft_us_long_long_len(
-				(unsigned long long)*(formats -> ap_pos), 16);
+		dara -> ap_len = ft_uintptr_len(
+				(uintptr_t)*(formats -> ap_pos), 16);
 	if (formats -> fs == d)
 		data -> ap_len = ft_s_int_len(*(formats -> ap_pos), 10);
 	if (formats -> fs == i)
@@ -122,8 +122,13 @@ int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
 		if (data -> processed_ap == NULL)
 			return (-1);
 	}	
-	else if (formats -> fs == 'd' || formats -> fs == 'i'
-			|| formats -> fs == 'x' || formats -> fs == 'X' || foramts -> fs == 'p')
-		data -> processed_ap = ft_itoa_base();
+	else if (formats -> fs == 'd' || formats -> fs == 'i')
+		data -> processed_ap = ft_itoa_base(*(formats -> ap_pos), 10);
+	else if (formats -> fs == 'u')
+		data -> processed_ap = ft_uitoa_base(*(formats -> ap_pos), 10);
+	else if (formats -> fs == 'x' || formats -> fs == 'X')
+		data -> processed_ap = ft_itoa_base(*(formats -> ap_pos), 16);
+	else if (formats -> fs == 'p')
+		data -> processed_ap = ft_uintprt_to_a(formats -> ap_pos);
 	return (-1);
 }

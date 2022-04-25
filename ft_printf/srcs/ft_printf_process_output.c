@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:52:29 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 10:04:44 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	make_fs_output(t_fp_content *content, t_fp_str *data)
 		return (-1);
 	}
 	content -> output = fs_output;
-	free_data(str_data); /* data 구조체 해제 */
+	ft_fp_free_data(&str_data);
 	return (ret);
 }
 
@@ -71,7 +71,6 @@ void	len_of_output(t_fp_formats *formats, t_fp_str *data)
 		fs_int_len(formats, data);
 	fs_sign_len(formats, data);
 	fs_process_ap(formats, data);
-	/* s와 c, 정수들과 p, 서로 구분할 필요가 있을까? */
 	return ;
 }
 
@@ -80,14 +79,15 @@ char	*put_chars(t_fp_formats *formats, t_fp_str *data)
 	char	*str;
 	char	*tmp;
 	size_t	i;
+	size_t	j;
 
-	/* data -> processed_ap 설정하기. 실패하면 반환해서 문제 생겼다고 알림 */
 	tmp = NULL;
-	str = (char *)malloc(len + 1);
+	str = (char *)malloc((data -> output_len) + 1);
 	if (str == NULL)
 		return (NULL);
-	str[len] = '\0';
+	str[data -> output_len] = '\0';
 	i = 0;
+	j = 0;
 	if (formats -> left_justify == 0)
 	{
 		while (data -> width_pad != 0)
@@ -121,7 +121,7 @@ char	*put_chars(t_fp_formats *formats, t_fp_str *data)
 		}
 		while (data -> ap_len != 0)
 		{
-			str[i++] = /* ap_pos의 값 문자로 변환하여 차례대로 -> 함수로 새 문자열 만들 필요성이 있음. 사용한 뒤에 여기서 해제. 아니면 data에 보관했다가 data 해제할 때 같이 해제하면 될 것 같다. 반드시 fs로 인해 조절된 문자열을 사용하게 되니까 후자가 나을 듯. -> ap_len만큼의 길이를 가지는 문자열로 할당 후 저장*/  ;
+			str[i++] = *((data -> processed_ap) + j);
 			(data -> ap_len)--;
 		}
 	}
@@ -129,7 +129,7 @@ char	*put_chars(t_fp_formats *formats, t_fp_str *data)
 	{
 		while (data -> ap_len != 0)
 		{
-			str[i++] = /* */;
+			str[i++] = *((data -> processed_ap) + j);
 			(data -> ap_len)--;
 		}		
 	}

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 09:02:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:41:45 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 10:06:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	ft_us_int_len(unsigned int num, int base)
 	return (i);
 }
 
-size_t	ft_us_long_long_len(unsigned long long addr, int base)
+size_t	ft_uintptr_len(uintptr_t addr, int base)
 {
 	int	i;
 
@@ -62,4 +62,15 @@ size_t	ft_us_long_long_len(unsigned long long addr, int base)
 	return (i);
 }
 
-/* data 구조체들 초기화 및 해제 필요 char *processed_ap랑 t_fp_str 자체 */
+void	ft_pf_free_data(t_fp_str **data)
+{
+	(*data)-> width_pad = 0;
+	(*data)-> prec_pad = 0;
+	(*data)-> ap_len = 0;
+	(*data)-> output_len = 0;
+	free((*data)-> processed_ap);
+	(*data)-> processed_ap = NULL;
+	free(*data);
+	data = NULL;
+	return ;
+}

@@ -6,12 +6,14 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 15:05:09 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 10:39:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include "libftprintf.h"
+
+/*what should function do if number of format specifier and number of va_list are diffrent? */
 
 int	ft_printf(const char *arg, ...)
 {
@@ -23,22 +25,13 @@ int	ft_printf(const char *arg, ...)
 		return (0);
 	va_start(ap, sizeof(uintptr_t));
 	ret = process_arg(arg, &ap, &lst_head);
-	if (ret == -1)
-		ft_lstclear(&lst_head, fs_lst_del);
-	/* 만약 format specifier와 va 인자 개수가 다르면 예외 처리?? */
-	/* fs와 ap_pos의 데이터 타입이 다르면 예외처리? 이건 어떻게? 지금 하는 건 맞는 것 같은데? */
-	ret = process_output(lst_head);
-	if (ret == -1)
-		ft_lstclear(&lst_head, fs_lst_del);
+	if (ret != -1)
+		ret = process_output(lst_head);
 	va_end(ap);
-	ret = print_output(lst_head);
-	if (ret == -1)
-		ft_lstclear(&lst_head, fs_lst_del);
-	/* ret 반환해서 초기화하는 함수만 3개인데, 이걸 한 함수에 넣고
-	 * 그 함수의 반환 값으로 한 번만 -1 돌려주는게 깔끔하지 않을까? */
-	/* 반환값 ret은 화면에 출력한 문자의 갯수 */
-	ft_lstclear(&lst_head, fs_lst_del);
-	return (ret);
+	if (ret != -1)
+		ret = print_output(lst_head);
+	ft_lstclear(&lst_head, fs_del_content);
+	return (ret)i;
 }
 
 int	process_arg(char *arg, va_list *ap, t_lst **lst_head)

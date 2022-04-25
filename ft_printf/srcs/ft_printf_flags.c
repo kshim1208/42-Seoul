@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/23 12:57:45 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 10:22:06 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,25 @@
 int	check_flags(char *arg, t_fp_content *new_content)
 {
 	int				check;
-	int				ret;
-	t_fp_formats 	formats;
+	t_fp_formats	formats;
 
 	check = 1;
-	ret = 1;
 	formats = new_content -> format_detail;
-	while(*arg != '\0')
+	while (*arg != '\0')
 	{
 		if (check == 1)
-			ret = is_flags(arg, formats, &check);
+			is_flags(arg, formats, &check);
 		if (check == 2)
-			ret = is_width(arg, formats, &check);
+			is_width(arg, formats, &check);
 		if (check == 3)
-			ret = is_precision(arg, formats, &check);
+			is_precision(arg, formats, &check);
 		if (check == 4)
 			return (1);
-		if (ret = -1)
-			return (ret);
+		if (is_flags_error(arg, formats) == -1)
+			return (-1);
 		arg++;
 	}
-	return (ret);	
+	return (1);
 }
 
 int	is_flags(char *arg, t_fp_formats *new_formats, int *check)
@@ -56,21 +54,26 @@ int	is_flags(char *arg, t_fp_formats *new_formats, int *check)
 		*check = 3;
 	if (check_fs(arg) == 1)
 		*check = 4;
-	if (is_flags_error(arg, new_formats) == -1)
-		return (-1);
 	return (1);
 }
-int 
 
-int	is_flags_error(char *arg, t_fp_formats *new_formats)
+int	is_flags_error(t_fp_formats *formats)
 {
-	if (*arg == '0' && new_formats -> left_justify == 1)
+	if (formats -> zero_fill == 1 && formats -> left_justify == 1)
 		return (-1);
-	if (*arg == '-' && new_formats -> zero_fill == 1)
+	if (formats -> sign == 1 && formats -> sign == 2)
 		return (-1);
-	if (*arg == ' ' && new_formats -> sign == 1)
+	if ((formats -> fs != 'd' && formats -> fs != 'i')
+		&& (formats -> sign == 1 || formats -> sign == 2))
 		return (-1);
-	if (*arg == '+' && new_formats -> sign == 2)
+	if ((formats -> fs == 'c' || formats -> fs == 's' || formats -> fs == 'p')
+		&& formats -> zero_fill == 1)
+		return (-1);
+	if ((formats -> fs != 'x' && formats -> fs == 'X')
+		&& formats -> alternate == 1)
+		return (-1);
+	if ((formats -> fs == 'c' || formats -> fs == 'p')
+		&& formats -> precision == 1)
 		return (-1);
 	return (1);
 }
@@ -95,10 +98,11 @@ int	is_precision(char *arg, t_fp_formats *new_formats, int *check)
 	if (*arg == '.' && new_formats -> precision == 0)
 		new_formats -> precision = 1;
 	else if (*arg >= 0 && *arg <= 9)
-		new_formats -> prec_val = (new_formats -> prec_val) * 10 + ((*arg) - '0');
+		new_formats -> prec_val
+			= (new_formats -> prec_val) * 10 + ((*arg) - '0');
 	else if (check_fs(arg) == 1)
 		*check = 4;
-	else 
+	else
 		return (-1);
 	return (1);
 }
