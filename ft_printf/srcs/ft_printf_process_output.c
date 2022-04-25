@@ -6,29 +6,29 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 10:04:44 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 15:17:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-int	process_output(t_lst *lst)
+int	process_output(t_list *lst)
 {
 	t_fp_content	*work_content;
-	t_ft_str		*str_data;
+	t_fp_str		*str_data;
 	int				ret;
 
 	while (lst != NULL)
 	{
-		work_content = lst ->(t_fp_content *)content;
+		work_content = lst -> content;
 		str_data = (t_fp_str *)malloc(sizeof(t_fp_str));
 		if (str_data == NULL)
 			return (-1);
-		str_data -> width_pad == 0;
-		str_data -> prec_pad == 0;
-		str_data -> ap_len == 0;
-		str_data -> output_len == 0;
-		str_data -> processed_ap == NULL;
+		str_data -> width_pad = 0;
+		str_data -> prec_pad = 0;
+		str_data -> ap_len = 0;
+		str_data -> output_len = 0;
+		str_data -> processed_ap = NULL;
 		if (work_content -> format == 1)
 		{
 			ret = make_fs_output(work_content, str_data);
@@ -43,22 +43,21 @@ int	process_output(t_lst *lst)
 int	make_fs_output(t_fp_content *content, t_fp_str *data)
 {
 	char			*fs_output;
-	t_fp_formats	formats;
-	t_fp_str		*str_data;
-	size_t			*ret;
+	t_fp_formats	*formats;
+	int				ret;
 
 	ret = 1;
 	formats = content -> format_detail;
-	len_of_ap(content, str_data);
-	len_of_output(content, str_data);
-	fs_output = put_chars(formats, str_data);
+	len_of_ap(formats, data);
+	len_of_output(formats, data);
+	fs_output = put_chars(formats, data);
 	if (fs_output == NULL)
 	{
-		free_data(str_data);
+		ft_fp_free_data(&data);
 		return (-1);
 	}
 	content -> output = fs_output;
-	ft_fp_free_data(&str_data);
+	ft_fp_free_data(&data);
 	return (ret);
 }
 
@@ -100,16 +99,16 @@ char	*put_chars(t_fp_formats *formats, t_fp_str *data)
 			(data -> width_pad)--;
 		}
 	}
-	if (formats -> sign == 1)
+	if (formats -> plus_sign == 1)
 		str[i++] = '+';
-	else if (formats -> sign == 2)
+	else if (formats -> space_sign == 1)
 		str[i++] = ' ';
 	if (formats -> alternate == 1)
 	{
 		str[i++] = '0';
 		if (formats -> fs == 'x')
 			str[i++] = 'x';
-		else if (formats -> fs = 'X')
+		else if (formats -> fs == 'X')
 			str[i++] = 'X';
 	}
 	if (formats -> precision == 1)

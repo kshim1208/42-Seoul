@@ -6,34 +6,31 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 10:06:09 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 15:15:26 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-void	len_of_ap(t_fp_content *content, t_fp_str *data)
+void	len_of_ap(t_fp_formats *formats, t_fp_str *data)
 {
-	t_fp_formats	formats;
-
-	formats = content -> format_detail;
-	if (formats -> fs == c)
+	if (formats -> fs == 'c')
 		data -> ap_len = 1;
-	if (formats -> fs == s)
-		data -> ap_len = ft_strlen(formats -> ap_pos);
-	if (formats -> fs == p)
-		dara -> ap_len = ft_uintptr_len(
-				(uintptr_t)*(formats -> ap_pos), 16);
-	if (formats -> fs == d)
-		data -> ap_len = ft_s_int_len(*(formats -> ap_pos), 10);
-	if (formats -> fs == i)
-		data -> ap_len = ft_s_int_len(*(formats -> ap_pos), 10);
-	if (formats -> fs == u)
-		data -> ap_len = ft_us_int_len(*(formats -> ap_pos), 10);
-	if (formats -> fs == x)
-		data -> ap_len = ft_us_int_len(*(formats -> ap_pos), 16);
-	if (formats -> fs == X)
-		data -> ap_len = ft_us_int_len(*(formats -> ap_pos), 16);
+	if (formats -> fs == 's')
+		data -> ap_len = ft_strlen((const char *)formats -> ap_pos);
+	if (formats -> fs == 'p')
+		data -> ap_len = ft_uintptr_len(
+				(uintptr_t)(formats -> ap_pos), 16);
+	if (formats -> fs == 'd')
+		data -> ap_len = ft_s_int_len(formats -> ap_pos, 10);
+	if (formats -> fs == 'i')
+		data -> ap_len = ft_s_int_len(formats -> ap_pos, 10);
+	if (formats -> fs == 'u')
+		data -> ap_len = ft_us_int_len(formats -> ap_pos, 10);
+	if (formats -> fs == 'x')
+		data -> ap_len = ft_us_int_len(formats -> ap_pos, 16);
+	if (formats -> fs == 'X')
+		data -> ap_len = ft_us_int_len(formats -> ap_pos, 16);
 	return ;
 }
 
@@ -51,7 +48,7 @@ void	fs_chars_len(t_fp_formats *formats, t_fp_str *data)
 	}
 	else
 		data -> output_len = data -> ap_len;
-	if (formats -> width > data -> len)
+	if (formats -> width > data -> ap_len)
 	{
 		data -> width_pad = (formats -> width) - (data -> output_len);
 		data -> output_len = formats -> width;
@@ -65,8 +62,8 @@ void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
 	{
 		if (data -> ap_len < formats -> prec_val)
 		{
-			data -> output_len = prec_val;
-			*prec_pad = (data -> output_len) - (data -> ap_len);
+			data -> output_len = formats -> prec_val;
+			data -> prec_pad = (data -> output_len) - (data -> ap_len);
 		}
 		else if (data -> ap_len >= formats -> prec_val)
 			data -> output_len = data -> ap_len;
@@ -75,17 +72,19 @@ void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
 		data -> output_len = data -> ap_len;
 	if ((formats -> width) > (data -> output_len))
 	{
-		*width_pad = (formats -> width) - (data -> output_len);
+		data -> width_pad = (formats -> width) - (data -> output_len);
 		data -> output_len = formats -> width;
 	}
 	return ;
 }
 
-size_t	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
+
+
+void	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
 {
 	if (data -> width_pad >= 1)
 	{
-		if (formats -> sign != 0)
+		if (formats -> space_sign != 0 || formats -> plus_sign != 0)
 			data -> width_pad--;
 	}
 	else
@@ -115,7 +114,7 @@ int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
 	
 	i = 0;
 	if (formats -> fs == 's')
-		data -> processed_ap = formats -> ap_pos;
+		data -> processed_ap = (char *)formats -> ap_pos;
 	else if (formats -> fs == 'c')
 	{
 		data -> processed_ap = (char *)malloc((data -> ap_len) + 1);
@@ -123,12 +122,12 @@ int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
 			return (-1);
 	}	
 	else if (formats -> fs == 'd' || formats -> fs == 'i')
-		data -> processed_ap = ft_itoa_base(*(formats -> ap_pos), 10);
+		data -> processed_ap = ft_itoa_base(formats -> ap_pos, 10);
 	else if (formats -> fs == 'u')
-		data -> processed_ap = ft_uitoa_base(*(formats -> ap_pos), 10);
+		data -> processed_ap = ft_uitoa_base(formats -> ap_pos, 10);
 	else if (formats -> fs == 'x' || formats -> fs == 'X')
-		data -> processed_ap = ft_itoa_base(*(formats -> ap_pos), 16);
+		data -> processed_ap = ft_uitoa_base(formats -> ap_pos, 16);
 	else if (formats -> fs == 'p')
-		data -> processed_ap = ft_uintprt_to_a(formats -> ap_pos);
+		data -> processed_ap = ft_uintptr_to_a(formats -> ap_pos);
 	return (-1);
 }

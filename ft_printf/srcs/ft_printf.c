@@ -6,41 +6,45 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 10:39:45 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/25 15:29:20 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
 #include "libftprintf.h"
 
 /*what should function do if number of format specifier and number of va_list are diffrent? */
 
+static int	process_arg(char *arg, va_list *ap, t_list **lst_head);
+char	*set_node_format(char *arg, va_list *ap, t_list **lst_head);
+char	*set_node_str(char *arg, char *start, t_list **lst_head);
+
 int	ft_printf(const char *arg, ...)
 {
-	va_list			ap;
-	t_lst			*lst_head;
-	int				ret;
+	va_list		ap;
+	t_list		*lst_head;
+	int			ret;
+	void		*del;
 
-	if (*arg == "")
+	if (ft_strlen((char *)arg) == 0)
 		return (0);
-	va_start(ap, sizeof(uintptr_t));
-	ret = process_arg(arg, &ap, &lst_head);
+	va_start(ap, arg);
+	ret = process_arg((char *)arg, &ap, &lst_head);
 	if (ret != -1)
 		ret = process_output(lst_head);
 	va_end(ap);
 	if (ret != -1)
 		ret = print_output(lst_head);
-	ft_lstclear(&lst_head, fs_del_content);
-	return (ret)i;
+	del = fp_del_content;
+	ft_lstclear(&lst_head, del);
+	return (ret);
 }
 
-int	process_arg(char *arg, va_list *ap, t_lst **lst_head)
+int	process_arg(char *arg, va_list *ap, t_list **lst_head)
 {
 	int		percent_char;
 	char	*start;
 
-	*lst_head == NULL;
-	i = 0;
+	*lst_head = NULL;
 	while (*arg != '\0')
 	{
 		percent_char = 0;
@@ -67,11 +71,11 @@ int	process_arg(char *arg, va_list *ap, t_lst **lst_head)
 	return (1);
 }
 
-char	*set_node_format(char *arg, va_list *ap, t_lst **lst_head)
+char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
 {
 	char			*tmp;
-	t_lst			new_node_lst;
-	t_fp_content	new_content;	
+	t_list			*new_lst;
+	t_fp_content	*new_content;	
 
 	tmp = arg + 1;
 	if (*tmp == '\0')
@@ -79,22 +83,21 @@ char	*set_node_format(char *arg, va_list *ap, t_lst **lst_head)
 	new_lst = make_new_content(lst_head, 1);
 	if (new_lst == NULL)
 		return (NULL);
-	new_content = new_lst ->(t_fp_content *)content;
-	check_flags(&tmp, new_content);
-	if (check_flag(&tmp, new_content) == -1)
+	new_content = new_lst -> content;
+	check_flags(tmp, new_content);
+	if (check_flags(tmp, new_content) == -1)
 		return (NULL);
-	if (check_format_specifier(tmp))
+	if (check_fs(tmp) == 1)
 	{
-		new_content -> format_detail -> format_specifier = *tmp;
 		set_va_and_fs(arg, ap, new_content);
 		return (++tmp);
 	}
 	return (NULL);
 }
 
-char	*set_node_str(char *arg, char *start, t_lst **lst_head)
+char	*set_node_str(char *arg, char *start, t_list **lst_head)
 {
-	t_lst	new_lst;
+	t_list	*new_lst;
 	size_t	len;
 	char	*str;
 
