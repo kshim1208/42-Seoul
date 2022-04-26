@@ -6,17 +6,15 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 15:29:20 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/26 14:35:00 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-/*what should function do if number of format specifier and number of va_list are diffrent? */
-
 static int	process_arg(char *arg, va_list *ap, t_list **lst_head);
-char	*set_node_format(char *arg, va_list *ap, t_list **lst_head);
-char	*set_node_str(char *arg, char *start, t_list **lst_head);
+static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head);
+static char	*set_node_str(char *arg, char *start, t_list **lst_head);
 
 int	ft_printf(const char *arg, ...)
 {
@@ -25,8 +23,6 @@ int	ft_printf(const char *arg, ...)
 	int			ret;
 	void		*del;
 
-	if (ft_strlen((char *)arg) == 0)
-		return (0);
 	va_start(ap, arg);
 	ret = process_arg((char *)arg, &ap, &lst_head);
 	if (ret != -1)
@@ -39,7 +35,7 @@ int	ft_printf(const char *arg, ...)
 	return (ret);
 }
 
-int	process_arg(char *arg, va_list *ap, t_list **lst_head)
+static int	process_arg(char *arg, va_list *ap, t_list **lst_head)
 {
 	int		percent_char;
 	char	*start;
@@ -71,7 +67,7 @@ int	process_arg(char *arg, va_list *ap, t_list **lst_head)
 	return (1);
 }
 
-char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
+static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
 {
 	char			*tmp;
 	t_list			*new_lst;
@@ -84,18 +80,16 @@ char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
 	if (new_lst == NULL)
 		return (NULL);
 	new_content = new_lst -> content;
-	check_flags(tmp, new_content);
-	if (check_flags(tmp, new_content) == -1)
+	if (check_flags(&tmp, new_content) == -1)
 		return (NULL);
-	if (check_fs(tmp) == 1)
-	{
-		set_va_and_fs(arg, ap, new_content);
-		return (++tmp);
-	}
-	return (NULL);
+	/* check_fs 2번 하고 있는거 아닌가? return 안되었다면 반드시 fs인데? */
+	set_va_and_fs(tmp, ap, new_content);
+	if (is_flags_error(new_content) == -1)
+		return (NULL);
+	return (++tmp);
 }
 
-char	*set_node_str(char *arg, char *start, t_list **lst_head)
+static char	*set_node_str(char *arg, char *start, t_list **lst_head)
 {
 	t_list	*new_lst;
 	size_t	len;
@@ -105,9 +99,10 @@ char	*set_node_str(char *arg, char *start, t_list **lst_head)
 	str = (char *)malloc(len + 1);
 	if (str == NULL)
 		return (NULL);
-	len = ft_strlcpy(str, start, len);
+	len = ft_strlcpy(str, start, len + 1);
 	new_lst = make_new_content(lst_head, 0);
 	if (new_lst == NULL)
 		return (NULL);
+	((t_fp_content *)new_lst -> content)-> output = str;
 	return (str);
 }

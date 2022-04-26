@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 15:15:26 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/26 14:18:05 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	len_of_ap(t_fp_formats *formats, t_fp_str *data)
 	if (formats -> fs == 'c')
 		data -> ap_len = 1;
 	if (formats -> fs == 's')
-		data -> ap_len = ft_strlen((const char *)formats -> ap_pos);
+		data -> ap_len = ft_strlen(((const char *)(formats -> ap_pos)));
 	if (formats -> fs == 'p')
 		data -> ap_len = ft_uintptr_len(
 				(uintptr_t)(formats -> ap_pos), 16);
@@ -78,8 +78,6 @@ void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-
-
 void	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
 {
 	if (data -> width_pad >= 1)
@@ -110,17 +108,21 @@ void	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
 
 int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
 {
-	size_t	i;
-	
-	i = 0;
+	char	*ch;
+
+	ch = NULL;
 	if (formats -> fs == 's')
-		data -> processed_ap = (char *)formats -> ap_pos;
+		data -> processed_ap = ft_strndup(
+				(char *)formats -> ap_pos, data -> ap_len);
 	else if (formats -> fs == 'c')
 	{
-		data -> processed_ap = (char *)malloc((data -> ap_len) + 1);
-		if (data -> processed_ap == NULL)
+		ch = (char *)malloc((data -> ap_len) + 1);
+		if (ch == NULL)
 			return (-1);
-	}	
+		*ch = formats -> ap_pos;
+		ch[(data -> ap_len)] = '\0';
+		data -> processed_ap = ch;
+	}
 	else if (formats -> fs == 'd' || formats -> fs == 'i')
 		data -> processed_ap = ft_itoa_base(formats -> ap_pos, 10);
 	else if (formats -> fs == 'u')
@@ -129,5 +131,5 @@ int	fs_process_ap(t_fp_formats *formats, t_fp_str *data)
 		data -> processed_ap = ft_uitoa_base(formats -> ap_pos, 16);
 	else if (formats -> fs == 'p')
 		data -> processed_ap = ft_uintptr_to_a(formats -> ap_pos);
-	return (-1);
+	return (1);
 }

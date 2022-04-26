@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 09:02:14 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 13:19:18 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/26 14:25:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ size_t	ft_uintptr_len(uintptr_t addr, int base)
 	return (i);
 }
 
-void	ft_pf_free_data(t_fp_str **data)
+void	ft_fp_free_data(t_fp_str **data)
 {
 	(*data)-> width_pad = 0;
 	(*data)-> prec_pad = 0;
@@ -71,6 +71,6 @@ void	ft_pf_free_data(t_fp_str **data)
 	free((*data)-> processed_ap);
 	(*data)-> processed_ap = NULL;
 	free(*data);
-	data = NULL;
+	*data = NULL;
 	return ;
 }
