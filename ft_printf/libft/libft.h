@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:03:46 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 09:49:40 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:16:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -43,14 +43,15 @@ char	*ft_strnstr(const char *str, const char *to_find, size_t len);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_strdup(const char *s1);
+char	*ft_strndup(const char *s1, size_t n);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_itoa_base(int n, int base);
-char	*ft_uitoa_base(int n, int base);
-char	*ft_uintptr_to_a(uintptr_t n);
+char	*ft_uitoa_base(int n, int base, int upper);
+char	*ft_uintptr_to_a(uintptr_t n, int upper);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 void	ft_putchar_fd(char c, int fd);

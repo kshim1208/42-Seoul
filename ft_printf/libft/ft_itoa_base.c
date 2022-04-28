@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 08:48:51 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 09:36:46 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/28 12:53:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	distribute_char(char *str, int n, int len, int base)
 static char	process_num_base(int num, int base)
 {
 	char	c;
-	
+
 	c = 0;
 	if (base == 10)
 		c = num + '0';

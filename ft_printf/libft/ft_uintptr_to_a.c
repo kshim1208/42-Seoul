@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:45:54 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 09:51:17 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:17:21 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,18 @@
 #include <stdint.h>
 
 static int	how_long(uintptr_t n);
-static void	distribute_char(char *str, uintptr_t n, int len);
-static char	process_num_base(uintptr_t num);
+static char	*distribute_char(uintptr_t n, int len, int upper);
+static char	process_num_base(uintptr_t num, int upper);
 
-char	*ft_uitoa_base(uintptr_t n)
+char	*ft_uintptr_to_a(uintptr_t n, int upper)
 {
 	char	*str;
 	int		len;
 
 	len = how_long(n);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = distribute_char(n, len, upper);
 	if (str == NULL)
 		return (NULL);
-	str[len] = '\0';
-	distribute_char(str, n, len);
 	return (str);
 }
 
@@ -48,23 +46,29 @@ static int	how_long(uintptr_t n)
 	return (len);
 }
 
-static void	distribute_char(char *str, uintptr_t n, int len)
+static char	*distribute_char(uintptr_t n, int len, int upper)
 {
+	char		*str;
 	uintptr_t	temp;
 	int			i;
 
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	str[len] = '\0';
 	temp = n;
 	i = len - 1;
 	if (temp == 0)
 		str[0] = '0';
 	while (temp != 0)
 	{
-		str[i--] = process_num_base(temp % 16);
+		str[i--] = process_num_base(temp % 16, upper);
 		temp = temp / 16;
 	}
+	return (str);
 }
 
-static char	process_num_base(uintptr_t num)
+static char	process_num_base(uintptr_t num, int upper)
 {
 	char	c;
 
@@ -72,6 +76,11 @@ static char	process_num_base(uintptr_t num)
 	if (num >= 0 && num <= 9)
 		c = num + '0';
 	else if (num >= 10 && num <= 15)
-		c = (char)(num + 87);
+	{
+		if (upper == 0)
+			c = (char)(num + 87);
+		else if (upper == 1)
+			c = (char)(num + 55);
+	}
 	return (c);
 }

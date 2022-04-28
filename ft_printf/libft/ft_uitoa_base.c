@@ -6,17 +6,17 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 09:05:37 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/25 09:37:19 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/28 13:16:39 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
 static int	how_long(unsigned int n, int base);
-static void	distribute_char(char *str, unsigned int n, int len, int base);
-static char	process_num_base(unsigned int num, int base);
+static char	*distribute_char(unsigned int n, int len, int base, int upper);
+static char	process_num_base(unsigned int num, int base, int upper);
 
-char	*ft_uitoa_base(unsigned int n, int base)
+char	*ft_uitoa_base(unsigned int n, int base, int upper)
 {
 	char	*str;
 	int		len;
@@ -24,11 +24,9 @@ char	*ft_uitoa_base(unsigned int n, int base)
 	if (base != 10 && base != 16)
 		return (NULL);
 	len = how_long(n, base);
-	str = (char *)malloc(sizeof(char) * (len + 1));
+	str = distribute_char(n, len, base, upper);
 	if (str == NULL)
 		return (NULL);
-	str[len] = '\0';
-	distribute_char(str, n, len, base);
 	return (str);
 }
 
@@ -49,26 +47,32 @@ static int	how_long(unsigned int n, int base)
 	return (len);
 }
 
-static void	distribute_char(char *str, unsigned int n, int len, int base)
+static char	*distribute_char(unsigned int n, int len, int base, int upper)
 {
+	char			*str;
 	unsigned int	temp;
 	int				i;
 
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	str[len] = '\0';
 	temp = n;
 	i = len - 1;
 	if (temp == 0)
 		str[0] = '0';
 	while (temp != 0)
 	{
-		str[i--] = process_num_base(temp % base, base);
+		str[i--] = process_num_base(temp % base, base, upper);
 		temp = temp / base;
 	}
+	return (str);
 }
 
-static char	process_num_base(unsigned int num, int base)
+static char	process_num_base(unsigned int num, int base, int upper)
 {
 	char	c;
-	
+
 	c = 0;
 	if (base == 10)
 		c = num + '0';
@@ -77,7 +81,12 @@ static char	process_num_base(unsigned int num, int base)
 		if (num >= 0 && num <= 9)
 			c = num + '0';
 		else if (num >= 10 && num <= 15)
-			c = (char)(num + 87);
+		{
+			if (upper == 0)
+				c = (char)(num + 87);
+			else if (upper == 1)
+				c = (char)(num + 55);
+		}
 	}
 	return (c);
 }
