@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 09:21:41 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 10:44:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	process_output(t_fp_content *work_content)
 		return (-1);
 	}
 	ft_fp_free_data(&str_data);
+	ft_fp_free_formats(&(work_content -> format_detail));
 	return (1);
 }
 

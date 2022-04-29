@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 10:22:56 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 10:29:23 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	process_arg(char *arg, va_list *ap, t_list **lst_head);
 static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head);
-static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *perc);
+static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *per);
 
 int	ft_printf(const char *arg, ...)
 {
@@ -85,7 +85,7 @@ static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
 	return (++tmp);
 }
 
-static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *perc)
+static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *per)
 {
 	t_list	*new_lst;
 	size_t	len;
@@ -101,7 +101,7 @@ static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *perc)
 		return (NULL);
 	((t_fp_content *)new_lst -> content)-> output = str;
 	((t_fp_content *)new_lst -> content)-> output_len = ft_strlen(str);
-	if (*perc == 1)
+	if (*per == 1)
 		(*arg)++;
 	return (str);
 }

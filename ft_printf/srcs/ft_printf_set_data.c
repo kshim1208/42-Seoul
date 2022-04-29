@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 10:04:22 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 11:52:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	process_output(t_fp_content *work_content)
 		return (-1);
 	}
 	ft_fp_free_data(&str_data);
+	ft_fp_free_formats(&(work_content -> format_detail));
 	return (1);
 }
 
@@ -51,6 +52,8 @@ int	make_fs_output(t_fp_content *content, t_fp_str *data)
 	if (len_of_output(formats, data) == -1)
 		return (-1);
 	content -> output_len = data -> output_len;
+	if (ft_fp_how_long() == -1)
+		return (-2);
 	fs_output = set_output(formats, data);
 	if (fs_output == NULL)
 		return (-1);

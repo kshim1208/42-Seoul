@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 14:53:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 09:05:19 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 10:58:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,35 +77,10 @@ void	fp_del_content(t_fp_content *content)
 		free(content -> output);
 		(content-> output) = NULL;
 	}
-	if (content-> format_detail != NULL)
-	{
-		(content -> format_detail)-> width = 0;
-		(content -> format_detail)-> alternate = 0;
-		(content -> format_detail)-> zero_fill = 0;
-		(content -> format_detail)-> left_justify = 0;
-		(content -> format_detail)-> plus_sign = 0;
-		(content -> format_detail)-> space_sign = 0;
-		(content -> format_detail)-> neg_value = 0;
-		(content -> format_detail)-> precision = 0;
-		(content -> format_detail)-> prec_val = 0;
-		(content -> format_detail)-> fs = 0;
-		free(content-> format_detail);
-		(content -> format_detail) = NULL;
-	}
+	if (content -> format_detail != NULL)
+		ft_fp_free_formats(&(content -> format_detail));
 	content -> format = 0;
+	content -> output_len = 0;
 	free(content);
-	(content) = NULL;
-}
-
-void	ft_fp_free_data(t_fp_str **data)
-{
-	(*data)-> width_pad = 0;
-	(*data)-> prec_pad = 0;
-	(*data)-> ap_len = 0;
-	(*data)-> output_len = 0;
-	free((*data)-> processed_ap);
-	(*data)-> processed_ap = NULL;
-	free(*data);
-	*data = NULL;
 	return ;
 }

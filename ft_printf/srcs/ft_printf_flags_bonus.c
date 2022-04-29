@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 10:07:11 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 11:00:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	is_flags_error(t_fp_content *content)
 		formats -> zero_fill = 0;
 	if (formats -> space_sign == 1 && formats -> plus_sign == 1)
 		formats -> space_sign = 0;
-	if ((formats -> fs != 'd' && formats -> fs != 'i' && formats -> fs != 's')
+	if ((formats -> fs != 'd' && formats -> fs != 'i')
 		&& (formats -> space_sign == 1))
 		return (-1);
 	if ((formats -> fs != 'd' && formats -> fs != 'i')
