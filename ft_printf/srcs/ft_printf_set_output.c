@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 11:20:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/28 15:59:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 09:08:33 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	*set_output(t_fp_formats *formats, t_fp_str *data)
 {
 	char	*str;
 	char	*tmp;
+	size_t	i;
 
+	i = 0;
 	str = (char *)malloc((data -> output_len) + 1);
 	if (str == NULL)
 		return (NULL);
@@ -24,23 +26,24 @@ char	*set_output(t_fp_formats *formats, t_fp_str *data)
 	tmp = str;
 	if (formats -> left_justify == 0 && formats -> precision == 1)
 		set_width_pad(formats, data, &tmp);
-	set_sign(formats, &tmp);
+	set_sign(formats, &tmp, &i);
 	if (formats -> left_justify == 0 && formats -> precision == 0)
 		set_width_pad(formats, data, &tmp);
 	set_alternate(formats, &tmp);
-	set_char(formats, data, &tmp);
+	set_char(formats, data, &tmp, &i);
 	if (formats -> left_justify == 1)
 		set_width_pad(formats, data, &tmp);
 	return (str);
 }
 
-void	set_sign(t_fp_formats *formats, char **str)
+void	set_sign(t_fp_formats *formats, char **str, size_t *i)
 {
 	{
-		if (formats -> minus_sign == 1)
+		if (formats -> neg_value == 1)
 		{
 			**str = '-';
 			(*str)++;
+			(*i)++;
 		}
 		else if (formats -> plus_sign == 1 || formats -> space_sign == 1)
 		{
@@ -83,11 +86,8 @@ void	set_width_pad(t_fp_formats *formats, t_fp_str *data, char **str)
 	return ;
 }
 
-void	set_char(t_fp_formats *formats, t_fp_str *data, char **str)
+void	set_char(t_fp_formats *formats, t_fp_str *data, char **str, size_t *i)
 {
-	size_t	i;
-
-	i = 0;
 	if (formats -> precision == 1)
 	{
 		while (data -> prec_pad != 0)
@@ -99,8 +99,8 @@ void	set_char(t_fp_formats *formats, t_fp_str *data, char **str)
 	}
 	while (data -> ap_len != 0)
 	{
-		**str = *((data -> processed_ap) + i);
-		i++;
+		**str = *((data -> processed_ap) + *i);
+		(*i)++;
 		(*str)++;
 		(data -> ap_len)--;
 	}

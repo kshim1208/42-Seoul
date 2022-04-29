@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 14:53:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/28 15:37:02 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 09:05:19 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_fp_formats	*set_format_detail(t_fp_content *new_content, va_list *ap)
 	new_formats -> left_justify = 0;
 	new_formats -> plus_sign = 0;
 	new_formats -> space_sign = 0;
-	new_formats -> minus_sign = 0;
+	new_formats -> neg_value = 0;
 	new_formats -> precision = 0;
 	new_formats -> prec_val = 0;
 	new_formats -> fs = 0;
@@ -83,13 +83,14 @@ void	fp_del_content(t_fp_content *content)
 		(content -> format_detail)-> alternate = 0;
 		(content -> format_detail)-> zero_fill = 0;
 		(content -> format_detail)-> left_justify = 0;
-		(content-> format_detail)-> plus_sign = 0;
-		(content-> format_detail)-> space_sign = 0;
-		(content-> format_detail)-> precision = 0;
-		(content-> format_detail)-> prec_val = 0;
-		(content-> format_detail)-> fs = 0;
+		(content -> format_detail)-> plus_sign = 0;
+		(content -> format_detail)-> space_sign = 0;
+		(content -> format_detail)-> neg_value = 0;
+		(content -> format_detail)-> precision = 0;
+		(content -> format_detail)-> prec_val = 0;
+		(content -> format_detail)-> fs = 0;
 		free(content-> format_detail);
-		(content-> format_detail) = NULL;
+		(content -> format_detail) = NULL;
 	}
 	content -> format = 0;
 	free(content);

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/28 15:58:09 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 09:21:41 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	fs_process_int_ap(t_fp_formats *formats, t_fp_str *data)
 				va_arg(*formats -> ap, int), 10);
 	if (data -> processed_ap == NULL)
 		return (-1);
+	if ((data -> processed_ap)[0] == '-')
+		formats -> neg_value = 1;
 	return (1);
 }
 
