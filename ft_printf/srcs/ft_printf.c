@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/28 14:12:32 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 10:22:56 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	process_arg(char *arg, va_list *ap, t_list **lst_head);
 static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head);
-static char	*set_node_str(char *arg, char *start, t_list **lst_head);
+static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *perc);
 
 int	ft_printf(const char *arg, ...)
 {
@@ -23,6 +23,7 @@ int	ft_printf(const char *arg, ...)
 	int			ret;
 	void		*del;
 
+	lst_head = NULL;
 	va_start(ap, arg);
 	ret = process_arg((char *)arg, &ap, &lst_head);
 	va_end(ap);
@@ -38,7 +39,6 @@ static int	process_arg(char *arg, va_list *ap, t_list **lst_head)
 	int		percent_char;
 	char	*start;
 
-	*lst_head = NULL;
 	while (*arg != '\0')
 	{
 		percent_char = 0;
@@ -56,11 +56,9 @@ static int	process_arg(char *arg, va_list *ap, t_list **lst_head)
 			arg++;
 			percent_char = 1;
 		}
-		start = set_node_str(arg, start, lst_head);
+		start = set_node_str(&arg, start, lst_head, &percent_char);
 		if (start == NULL)
 			return (-1);
-		if (percent_char == 1)
-			arg++;
 	}
 	return (1);
 }
@@ -87,13 +85,13 @@ static char	*set_node_format(char *arg, va_list *ap, t_list **lst_head)
 	return (++tmp);
 }
 
-static char	*set_node_str(char *arg, char *start, t_list **lst_head)
+static char	*set_node_str(char **arg, char *start, t_list **lst_head, int *perc)
 {
 	t_list	*new_lst;
 	size_t	len;
 	char	*str;
 
-	len = arg - start;
+	len = (*arg) - start;
 	str = (char *)malloc(len + 1);
 	if (str == NULL)
 		return (NULL);
@@ -103,5 +101,7 @@ static char	*set_node_str(char *arg, char *start, t_list **lst_head)
 		return (NULL);
 	((t_fp_content *)new_lst -> content)-> output = str;
 	((t_fp_content *)new_lst -> content)-> output_len = ft_strlen(str);
+	if (*perc == 1)
+		(*arg)++;
 	return (str);
 }

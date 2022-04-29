@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 09:23:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/04/29 10:07:11 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,27 @@ int	is_width_precision(char *arg, t_fp_formats *formats, int *check)
 
 int	is_flags_error(t_fp_content *content)
 {
-	t_fp_formats	*format;
+	t_fp_formats	*formats;
 
-	format = content -> format_detail;
-	if (format -> zero_fill == 1 && format -> left_justify == 1)
-		format -> zero_fill = 0;
-	if (format -> space_sign == 1 && format -> plus_sign == 1)
-		format -> space_sign = 0;
-	if ((format -> fs != 'd' && format -> fs != 'i')
-		&& (format -> plus_sign == 1 || format -> space_sign == 1))
+	formats = content -> format_detail;
+	if (formats -> zero_fill == 1 && formats -> left_justify == 1)
+		formats -> zero_fill = 0;
+	if (formats -> space_sign == 1 && formats -> plus_sign == 1)
+		formats -> space_sign = 0;
+	if ((formats -> fs != 'd' && formats -> fs != 'i' && formats -> fs != 's')
+		&& (formats -> space_sign == 1))
 		return (-1);
-	if ((format -> fs == 'c' || format -> fs == 's' || format -> fs == 'p')
-		&& format -> zero_fill == 1)
+	if ((formats -> fs != 'd' && formats -> fs != 'i')
+		&& (formats -> plus_sign == 1))
 		return (-1);
-	if ((format -> fs != 'x' && format -> fs != 'X')
-		&& format -> alternate == 1)
+	if ((formats -> fs == 'c' || formats -> fs == 's' || formats -> fs == 'p')
+		&& formats -> zero_fill == 1)
 		return (-1);
-	if ((format -> fs == 'c' || format -> fs == 'p')
-		&& format -> precision == 1)
+	if ((formats -> fs != 'x' && formats -> fs != 'X')
+		&& formats -> alternate == 1)
+		return (-1);
+	if ((formats -> fs == 'c' || formats -> fs == 'p')
+		&& formats -> precision == 1)
 		return (-1);
 	return (1);
 }
