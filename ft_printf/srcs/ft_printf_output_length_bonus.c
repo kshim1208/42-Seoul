@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 09:18:43 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 12:36:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,17 @@ void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
 {
 	if (formats -> precision == 1)
 	{
-		if (data -> ap_len < formats -> prec_val)
+		if (formats -> prec_val == 0 && *(data -> processed_ap) == '0')
+		{
+			data -> output_len = 0;
+			data -> ap_len = 0;
+		}
+		else if (data -> ap_len < formats -> prec_val)
 		{
 			data -> output_len = formats -> prec_val;
 			data -> prec_pad = (data -> output_len) - (data -> ap_len);
 		}
-		else if (data -> ap_len >= formats -> prec_val)
+		else
 			data -> output_len = data -> ap_len;
 	}
 	else

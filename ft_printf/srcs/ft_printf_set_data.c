@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_process_output.c                         :+:      :+:    :+:   */
+/*   ft_printf_set_data.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 11:52:19 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 12:34:34 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	process_output(t_fp_content *work_content)
+int	process_output(t_fp_content *work_content, int *how_many)
 {
 	t_fp_str		*str_data;
 
@@ -24,21 +24,24 @@ int	process_output(t_fp_content *work_content)
 	str_data -> ap_len = 0;
 	str_data -> output_len = 0;
 	str_data -> processed_ap = NULL;
-	if (make_fs_output(work_content, str_data) == -1)
+	if (make_fs_output(work_content, str_data, how_many) == -1)
 	{
+		*how_many = -1;
 		ft_fp_free_data(&str_data);
+		ft_fp_free_formats(&(work_content -> format_detail));
 		return (-1);
 	}
+	*how_many = *how_many + str_data -> output_len;
 	ft_fp_free_data(&str_data);
 	ft_fp_free_formats(&(work_content -> format_detail));
 	return (1);
 }
 
-int	make_fs_output(t_fp_content *content, t_fp_str *data)
+int	make_fs_output(t_fp_content *content, t_fp_str *data, int *how_many)
 {
-	char			*fs_output;
 	t_fp_formats	*formats;
 	int				ret;
+	size_t			pf_ret;
 
 	formats = content -> format_detail;
 	if (formats -> fs == 'c' || formats -> fs == 's')
@@ -49,15 +52,11 @@ int	make_fs_output(t_fp_content *content, t_fp_str *data)
 		ret = fs_process_uint_ap(formats, data);
 	if (ret == -1)
 		return (-1);
-	if (len_of_output(formats, data) == -1)
+	len_of_output(formats, data);
+	pf_ret = data -> output_len + *how_many;
+	if (pf_ret > 2147483647)
 		return (-1);
-	content -> output_len = data -> output_len;
-	if (ft_fp_how_long() == -1)
-		return (-2);
-	fs_output = set_output(formats, data);
-	if (fs_output == NULL)
-		return (-1);
-	content -> output = fs_output;
+	set_output(formats, data);
 	return (1);
 }
 

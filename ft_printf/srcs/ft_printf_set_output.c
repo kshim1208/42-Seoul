@@ -1,107 +1,104 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_process_output2.c                        :+:      :+:    :+:   */
+/*   ft_printf_set_output.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 11:20:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/04/29 11:46:52 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 12:45:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "unistd.h"
 
-char	*set_output(t_fp_formats *formats, t_fp_str *data)
+void	set_output(t_fp_formats *formats, t_fp_str *data)
 {
-	char	*str;
-	char	*tmp;
 	size_t	i;
 
 	i = 0;
-	str = (char *)malloc((data -> output_len) + 1);
-	if (str == NULL)
-		return (NULL);
-	str[data -> output_len] = '\0';
-	tmp = str;
-	if (formats -> left_justify == 0 && formats -> precision == 1)
-		set_width_pad(formats, data, &tmp);
-	set_sign(formats, &tmp, &i);
-	if (formats -> left_justify == 0 && formats -> precision == 0)
-		set_width_pad(formats, data, &tmp);
-	set_alternate(formats, &tmp);
-	set_char(formats, data, &tmp, &i);
+	if (formats -> zero_fill == 1
+		&& formats -> precision == 0 && formats -> zero_fill == 1)
+	{
+		set_sign(formats, &i);
+		set_width_pad(formats, data);
+	}
+	else if (formats -> left_justify == 0)
+	{
+		set_width_pad(formats, data);
+		set_sign(formats, &i);
+	}
+	if ((formats -> alternate == 1 && *(data -> processed_ap) != '0')
+		|| formats -> fs == 'p')
+		set_alternate(formats);
 	if (formats -> left_justify == 1)
-		set_width_pad(formats, data, &tmp);
-	return (str);
+		set_sign(formats, &i);
+	set_char(formats, data, &i);
+	if (formats -> left_justify == 1)
+		set_width_pad(formats, data);
+	return ;
 }
 
-void	set_sign(t_fp_formats *formats, char **str, size_t *i)
+void	set_sign(t_fp_formats *formats, size_t *i)
 {
 	{
 		if (formats -> neg_value == 1)
 		{
-			**str = '-';
-			(*str)++;
+			write(1, "-", 1);
 			(*i)++;
 		}
 		else if (formats -> plus_sign == 1 || formats -> space_sign == 1)
 		{
 			if (formats -> plus_sign == 1)
-				**str = '+';
+				write(1, "+", 1);
 			else if (formats -> space_sign == 1)
-				**str = ' ';
-		(*str)++;
+				write(1, " ", 1);
 		}
 	}
 	return ;
 }
 
-void	set_alternate(t_fp_formats *formats, char **str)
+void	set_alternate(t_fp_formats *formats)
 {
 	if (formats -> alternate == 1 || formats -> fs == 'p')
 	{
-		**str = '0';
-		(*str)++;
+		write(1, "0", 1);
 		if (formats -> fs == 'x' || formats -> fs == 'p')
-			**str = 'x';
+			write(1, "x", 1);
 		else if (formats -> fs == 'X')
-			**str = 'X';
-		(*str)++;
+			write(1, "X", 1);
 	}
 	return ;
 }
 
-void	set_width_pad(t_fp_formats *formats, t_fp_str *data, char **str)
+void	set_width_pad(t_fp_formats *formats, t_fp_str *data)
 {
 	while (data -> width_pad != 0)
 	{
 		if (formats -> zero_fill == 1 && formats -> precision == 0)
-			**str = '0';
+			write(1, "0", 1);
 		else
-			**str = ' ';
-		(*str)++;
+			write(1, " ", 1);
 		(data -> width_pad)--;
 	}
 	return ;
 }
 
-void	set_char(t_fp_formats *formats, t_fp_str *data, char **str, size_t *i)
+void	set_char(t_fp_formats *formats, t_fp_str *data, size_t *i)
 {
 	if (formats -> precision == 1)
 	{
 		while (data -> prec_pad != 0)
 		{
-			**str = '0';
-			(*str)++;
+			write(1, "0", 1);
 			(data -> prec_pad)--;
 		}
 	}
 	while (data -> ap_len != 0)
 	{
-		**str = *((data -> processed_ap) + *i);
+		write(1, ((data -> processed_ap) + *i), 1);
 		(*i)++;
-		(*str)++;
 		(data -> ap_len)--;
 	}
 	return ;
