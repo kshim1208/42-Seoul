@@ -16,9 +16,9 @@ INCLUDE = ./include
 
 SRCSDIR = ./srcs/
 
-SRCS_FILES = ft_printf.c ft_printf_output_length.c ft_printf_content.c ft_printf_flags.c ft_printf_set_output.c ft_printf_set_data.c ft_printf_utils.c
+SRCS_FILES = ft_printf.c ft_printf_output_length.c ft_printf_structs.c ft_printf_flags.c ft_printf_set_output.c ft_printf_set_data.c ft_printf_utils.c
 
-BONUS_SRCS_FILES = ft_printf_bonus.c ft_printf_output_length_bonus.c ft_printf_content_bonus.c ft_printf_flags_bonus.c ft_printf_set_output_bonus.c ft_printf_set_data_bonus.c ft_printf_utils_bonus.c
+BONUS_SRCS_FILES = ft_printf_bonus.c ft_printf_output_length_bonus.c ft_printf_structs_bonus.c ft_printf_flags_bonus.c ft_printf_set_output_bonus.c ft_printf_set_data_bonus.c ft_printf_utils_bonus.c
 
 SRCS = $(addprefix $(SRCSDIR), $(SRCS_FILES))
 

@@ -6,37 +6,17 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 14:53:24 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 10:50:04 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:16:36 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-t_fp_content	*set_new_content(int is_format, va_list *ap)
+t_pf_formats	*set_formats(va_list *ap)
 {
-	t_fp_content	*new_content;
-	t_fp_formats	*tmp;
+	t_pf_formats	*new_formats;
 
-	new_content = (t_fp_content *)malloc(sizeof(t_fp_content));
-	if (new_content == NULL)
-		return (NULL);
-	new_content -> format = is_format;
-	if (is_format == 1)
-	{
-		tmp = set_format_detail(new_content, ap);
-		if (tmp == NULL)
-			return (NULL);
-	}
-	else
-		new_content -> format_detail = NULL;
-	return (new_content);
-}
-
-t_fp_formats	*set_format_detail(t_fp_content *new_content, va_list *ap)
-{
-	t_fp_formats	*new_formats;
-
-	new_formats = (t_fp_formats *)malloc(sizeof(t_fp_formats));
+	new_formats = (t_pf_formats *)malloc(sizeof(t_pf_formats));
 	if (new_formats == NULL)
 		return (NULL);
 	new_formats -> ap = ap;
@@ -50,17 +30,36 @@ t_fp_formats	*set_format_detail(t_fp_content *new_content, va_list *ap)
 	new_formats -> precision = 0;
 	new_formats -> prec_val = 0;
 	new_formats -> fs = 0;
-	new_content -> format_detail = new_formats;
 	return (new_formats);
 }
 
-void	fp_del_content(t_fp_content **content)
+void	pf_del_formats(t_pf_formats **formats)
 {
-	if (((*content)-> format_detail) != NULL)
-		ft_fp_free_formats(&((*content)-> format_detail));
-	(*content)-> format = 0;
-	(*content)-> output_len = 0;
-	free((*content));
-	(*content) = NULL;
+	(*formats)-> ap = 0;
+	(*formats)-> width = 0;
+	(*formats)-> alternate = 0;
+	(*formats)-> zero_fill = 0;
+	(*formats)-> left_justify = 0;
+	(*formats)-> plus_sign = 0;
+	(*formats)-> space_sign = 0;
+	(*formats)-> neg_value = 0;
+	(*formats)-> precision = 0;
+	(*formats)-> prec_val = 0;
+	(*formats)-> fs = 0;
+	free((*formats));
+	(*formats) = NULL;
+	return ;
+}
+
+void	pf_del_data(t_pf_str **data)
+{
+	(*data)-> width_pad = 0;
+	(*data)-> prec_pad = 0;
+	(*data)-> ap_len = 0;
+	(*data)-> output_len = 0;
+	free((*data)-> processed_ap);
+	(*data)-> processed_ap = NULL;
+	free(*data);
+	*data = NULL;
 	return ;
 }

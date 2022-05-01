@@ -6,17 +6,17 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 13:43:13 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 11:26:33 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:16:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	process_output(t_fp_content *work_content, int *how_many)
+int	process_output(t_pf_formats *formats, int *how_many)
 {
-	t_fp_str		*str_data;
+	t_pf_str		*str_data;
 
-	str_data = (t_fp_str *)malloc(sizeof(t_fp_str));
+	str_data = (t_pf_str *)malloc(sizeof(t_pf_str));
 	if (str_data == NULL)
 		return (-1);
 	str_data -> width_pad = 0;
@@ -24,26 +24,22 @@ int	process_output(t_fp_content *work_content, int *how_many)
 	str_data -> ap_len = 0;
 	str_data -> output_len = 0;
 	str_data -> processed_ap = NULL;
-	if (make_fs_output(work_content, str_data, how_many) == -1)
+	if (make_fs_output(formats, str_data, how_many) == -1)
 	{
 		*how_many = -1;
-		ft_fp_free_data(&str_data);
-		ft_fp_free_formats(&(work_content -> format_detail));
+		pf_del_data(&str_data);
 		return (-1);
 	}
 	*how_many = *how_many + str_data -> output_len;
-	ft_fp_free_data(&str_data);
-	ft_fp_free_formats(&(work_content -> format_detail));
+	pf_del_data(&str_data);
 	return (1);
 }
 
-int	make_fs_output(t_fp_content *content, t_fp_str *data, int *how_many)
+int	make_fs_output(t_pf_formats *formats, t_pf_str *data, int *how_many)
 {
-	t_fp_formats	*formats;
 	int				ret;
 	size_t			pf_ret;
 
-	formats = content -> format_detail;
 	if (formats -> fs == 'c' || formats -> fs == 's')
 		ret = fs_process_char_ap(formats, data);
 	else if (formats -> fs == 'd' || formats -> fs == 'i')
@@ -60,7 +56,7 @@ int	make_fs_output(t_fp_content *content, t_fp_str *data, int *how_many)
 	return (1);
 }
 
-int	fs_process_char_ap(t_fp_formats *formats, t_fp_str *data)
+int	fs_process_char_ap(t_pf_formats *formats, t_pf_str *data)
 {
 	char	*str;
 
@@ -80,7 +76,7 @@ int	fs_process_char_ap(t_fp_formats *formats, t_fp_str *data)
 	return (1);
 }
 
-int	fs_process_int_ap(t_fp_formats *formats, t_fp_str *data)
+int	fs_process_int_ap(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> fs == 'd' || formats -> fs == 'i')
 		data -> processed_ap = ft_itoa_base(
@@ -92,7 +88,7 @@ int	fs_process_int_ap(t_fp_formats *formats, t_fp_str *data)
 	return (1);
 }
 
-int	fs_process_uint_ap(t_fp_formats *formats, t_fp_str *data)
+int	fs_process_uint_ap(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> fs == 'u')
 		data -> processed_ap = ft_uitoa_base(

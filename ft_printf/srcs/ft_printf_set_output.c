@@ -6,14 +6,14 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 11:20:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 12:45:45 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:16:57 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "unistd.h"
 
-void	set_output(t_fp_formats *formats, t_fp_str *data)
+void	set_output(t_pf_formats *formats, t_pf_str *data)
 {
 	size_t	i;
 
@@ -40,7 +40,7 @@ void	set_output(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-void	set_sign(t_fp_formats *formats, size_t *i)
+void	set_sign(t_pf_formats *formats, size_t *i)
 {
 	{
 		if (formats -> neg_value == 1)
@@ -59,7 +59,7 @@ void	set_sign(t_fp_formats *formats, size_t *i)
 	return ;
 }
 
-void	set_alternate(t_fp_formats *formats)
+void	set_alternate(t_pf_formats *formats)
 {
 	if (formats -> alternate == 1 || formats -> fs == 'p')
 	{
@@ -72,7 +72,7 @@ void	set_alternate(t_fp_formats *formats)
 	return ;
 }
 
-void	set_width_pad(t_fp_formats *formats, t_fp_str *data)
+void	set_width_pad(t_pf_formats *formats, t_pf_str *data)
 {
 	while (data -> width_pad != 0)
 	{
@@ -85,7 +85,7 @@ void	set_width_pad(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-void	set_char(t_fp_formats *formats, t_fp_str *data, size_t *i)
+void	set_char(t_pf_formats *formats, t_pf_str *data, size_t *i)
 {
 	if (formats -> precision == 1)
 	{

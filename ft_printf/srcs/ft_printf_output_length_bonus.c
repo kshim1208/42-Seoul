@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 12:36:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:15:55 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	len_of_output(t_fp_formats *formats, t_fp_str *data)
+int	len_of_output(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> fs == 'c')
 		data -> ap_len = 1;
@@ -37,7 +37,7 @@ int	len_of_output(t_fp_formats *formats, t_fp_str *data)
 	return (1);
 }
 
-void	fs_chars_len(t_fp_formats *formats, t_fp_str *data)
+void	fs_chars_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> precision == 1)
 	{
@@ -59,7 +59,7 @@ void	fs_chars_len(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
+void	fs_int_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> precision == 1)
 	{
@@ -86,7 +86,7 @@ void	fs_int_len(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-void	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
+void	fs_sign_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> plus_sign == 1 || formats -> space_sign == 1
 		|| formats -> neg_value == 1)
@@ -99,7 +99,7 @@ void	fs_sign_len(t_fp_formats *formats, t_fp_str *data)
 	return ;
 }
 
-void	fs_alter_len(t_fp_formats *formats, t_fp_str *data)
+void	fs_alter_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if ((formats -> alternate == 1 && *(data -> processed_ap) != '0')
 		|| formats -> fs == 'p')

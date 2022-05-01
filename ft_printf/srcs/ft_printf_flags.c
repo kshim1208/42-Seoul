@@ -6,21 +6,19 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 12:49:15 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:15:48 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	check_flags(char **arg, t_fp_content *new_content)
+int	check_flags(char **arg, t_pf_formats *formats)
 {
 	int				check;
-	t_fp_formats	*formats;
 	char			*tmp;
 
 	tmp = *arg;
 	check = 1;
-	formats = new_content -> format_detail;
 	while (*tmp != '\0')
 	{
 		if (check == 1)
@@ -38,7 +36,7 @@ int	check_flags(char **arg, t_fp_content *new_content)
 	return (check);
 }
 
-int	is_flags(char *arg, t_fp_formats *formats, int *check)
+int	is_flags(char *arg, t_pf_formats *formats, int *check)
 {
 	if (*arg == '#')
 		formats -> alternate = 1;
@@ -61,7 +59,7 @@ int	is_flags(char *arg, t_fp_formats *formats, int *check)
 	return (1);
 }
 
-int	is_width(char *arg, t_fp_formats *formats, int *check)
+int	is_width(char *arg, t_pf_formats *formats, int *check)
 {
 	if (*arg >= '0' && *arg <= '9')
 	{
@@ -78,7 +76,7 @@ int	is_width(char *arg, t_fp_formats *formats, int *check)
 	return (1);
 }
 
-int	is_precision(char *arg, t_fp_formats *formats, int *check)
+int	is_precision(char *arg, t_pf_formats *formats, int *check)
 {	
 	if (*arg == '.' && formats -> precision == 0)
 		formats -> precision = 1;
@@ -86,7 +84,7 @@ int	is_precision(char *arg, t_fp_formats *formats, int *check)
 	{
 		formats -> prec_val
 			= (formats -> prec_val) * 10 + ((*arg) - '0');
-		if (formats -> width + formats -> prec_val >= 2147483647)
+		if (formats -> prec_val >= 2147483647)
 			*check = -1;
 	}
 	else if (check_fs(arg) == 1)
@@ -96,11 +94,8 @@ int	is_precision(char *arg, t_fp_formats *formats, int *check)
 	return (1);
 }
 
-int	is_flags_error(t_fp_content *content)
+int	is_flags_error(t_pf_formats *formats)
 {
-	t_fp_formats	*formats;
-
-	formats = content -> format_detail;
 	if (formats -> zero_fill == 1 && formats -> left_justify == 1)
 		formats -> zero_fill = 0;
 	if (formats -> space_sign == 1 && formats -> plus_sign == 1)
