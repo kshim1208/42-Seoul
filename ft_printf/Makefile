@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 RM = rm
 RMFLAGS = -f
 AR = ar
-ARFLAGS = -rcs
+ARFLAGS = -rs
 
 HEADERS = -I$(INCLUDE)
 

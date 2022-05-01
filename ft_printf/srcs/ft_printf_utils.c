@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 14:42:22 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:15:19 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:44:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	pf_put_str(char *str, size_t len)
 	return ;
 }
 
-int	check_fs(char *arg)
+int	pf_check_fs(char *arg)
 {
 	if (*arg == 'c' || *arg == 's' || *arg == 'p' || *arg == 'd'
 		|| *arg == 'i' || *arg == 'u' || *arg == 'x' || *arg == 'X')
@@ -34,7 +34,7 @@ int	check_fs(char *arg)
 	return (0);
 }
 
-char	*ft_set_c(t_pf_formats *formats)
+char	*pf_set_c(t_pf_formats *formats)
 {
 	char	*tmp;
 	char	c;

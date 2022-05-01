@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 10:56:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:15:32 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:41:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,14 @@ static void	put_format(char **arg, va_list *ap, int *how_many)
 	(*arg)++;
 	if (**arg == '\0')
 		return ;
-	formats = set_formats(ap);
+	formats = pf_set_formats(ap);
 	if (formats == NULL)
 		*how_many = -1;
-	if (*how_many != -1 && check_flags(arg, formats) == -1)
+	if (*how_many != -1 && pf_check_flags(arg, formats) == -1)
 		*how_many = -1;
-	if (*how_many != -1 && is_flags_error(formats) == -1)
+	if (*how_many != -1 && pf_is_flags_error(formats) == -1)
 		*how_many = -1;
-	if (*how_many != -1 && process_output(formats, how_many) == -1)
+	if (*how_many != -1 && pf_process_output(formats, how_many) == -1)
 		*how_many = -1;
 	if (formats != NULL)
 		pf_del_formats(&formats);

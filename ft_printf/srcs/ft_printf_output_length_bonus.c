@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:22:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:15:55 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:43:13 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	len_of_output(t_pf_formats *formats, t_pf_str *data)
+int	pf_len_of_output(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> fs == 'c')
 		data -> ap_len = 1;
@@ -24,26 +24,26 @@ int	len_of_output(t_pf_formats *formats, t_pf_str *data)
 			(data -> ap_len)--;
 	}
 	if (formats -> fs == 's' || formats -> fs == 'c')
-		fs_chars_len(formats, data);
+		pf_chars_len(formats, data);
 	else if (formats -> fs == 'd' || formats -> fs == 'i'
 		|| formats -> fs == 'u' || formats -> fs == 'x'
 		|| formats -> fs == 'X' || formats -> fs == 'p')
-		fs_int_len(formats, data);
+		pf_int_len(formats, data);
 	if (formats -> space_sign == 1 || formats -> plus_sign == 1
 		|| formats -> neg_value == 1)
-		fs_sign_len(formats, data);
+		pf_sign_len(formats, data);
 	if (formats -> alternate == 1 || formats -> fs == 'p')
-		fs_alter_len(formats, data);
+		pf_alter_len(formats, data);
 	return (1);
 }
 
-void	fs_chars_len(t_pf_formats *formats, t_pf_str *data)
+void	pf_chars_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> precision == 1)
 	{
 		if (data -> ap_len < formats -> prec_val)
 			data -> output_len = data -> ap_len;
-		else if (data -> ap_len >= formats -> prec_val)
+		else
 		{
 			data -> output_len = formats -> prec_val;
 			data -> ap_len = formats -> prec_val;
@@ -59,7 +59,7 @@ void	fs_chars_len(t_pf_formats *formats, t_pf_str *data)
 	return ;
 }
 
-void	fs_int_len(t_pf_formats *formats, t_pf_str *data)
+void	pf_int_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> precision == 1)
 	{
@@ -86,7 +86,7 @@ void	fs_int_len(t_pf_formats *formats, t_pf_str *data)
 	return ;
 }
 
-void	fs_sign_len(t_pf_formats *formats, t_pf_str *data)
+void	pf_sign_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if (formats -> plus_sign == 1 || formats -> space_sign == 1
 		|| formats -> neg_value == 1)
@@ -99,7 +99,7 @@ void	fs_sign_len(t_pf_formats *formats, t_pf_str *data)
 	return ;
 }
 
-void	fs_alter_len(t_pf_formats *formats, t_pf_str *data)
+void	pf_alter_len(t_pf_formats *formats, t_pf_str *data)
 {
 	if ((formats -> alternate == 1 && *(data -> processed_ap) != '0')
 		|| formats -> fs == 'p')

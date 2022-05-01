@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:25:48 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:15:48 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/01 14:45:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	check_flags(char **arg, t_pf_formats *formats)
+int	pf_check_flags(char **arg, t_pf_formats *formats)
 {
 	int				check;
 	char			*tmp;
@@ -22,21 +22,25 @@ int	check_flags(char **arg, t_pf_formats *formats)
 	while (*tmp != '\0')
 	{
 		if (check == 1)
-			is_flags(tmp, formats, &check);
+			pf_is_flags(tmp, formats, &check);
 		if (check == 2)
-			is_width(tmp, formats, &check);
+			pf_is_width(tmp, formats, &check);
 		if (check == 3)
-			is_precision(tmp, formats, &check);
+			pf_is_precision(tmp, formats, &check);
 		if (check == 4 || check == -1)
 			break ;
 		tmp++;
 	}
+	if (formats -> zero_fill == 1 && formats -> left_justify == 1)
+		formats -> zero_fill = 0;
+	if (formats -> space_sign == 1 && formats -> plus_sign == 1)
+		formats -> space_sign = 0;
 	formats -> fs = *tmp;
 	(*arg) = tmp + 1;
 	return (check);
 }
 
-int	is_flags(char *arg, t_pf_formats *formats, int *check)
+int	pf_is_flags(char *arg, t_pf_formats *formats, int *check)
 {
 	if (*arg == '#')
 		formats -> alternate = 1;
@@ -52,14 +56,14 @@ int	is_flags(char *arg, t_pf_formats *formats, int *check)
 		*check = 2;
 	else if (*arg == '.')
 		*check = 3;
-	else if (check_fs(arg) == 1)
+	else if (pf_check_fs(arg) == 1)
 		*check = 4;
 	else
 		*check = -1;
 	return (1);
 }
 
-int	is_width(char *arg, t_pf_formats *formats, int *check)
+int	pf_is_width(char *arg, t_pf_formats *formats, int *check)
 {
 	if (*arg >= '0' && *arg <= '9')
 	{
@@ -69,14 +73,14 @@ int	is_width(char *arg, t_pf_formats *formats, int *check)
 	}
 	else if (*arg == '.')
 		*check = 3;
-	else if (check_fs(arg) == 1)
+	else if (pf_check_fs(arg) == 1)
 		*check = 4;
 	else
 		*check = -1;
 	return (1);
 }
 
-int	is_precision(char *arg, t_pf_formats *formats, int *check)
+int	pf_is_precision(char *arg, t_pf_formats *formats, int *check)
 {	
 	if (*arg == '.' && formats -> precision == 0)
 		formats -> precision = 1;
@@ -87,19 +91,15 @@ int	is_precision(char *arg, t_pf_formats *formats, int *check)
 		if (formats -> prec_val >= 2147483647)
 			*check = -1;
 	}
-	else if (check_fs(arg) == 1)
+	else if (pf_check_fs(arg) == 1)
 		*check = 4;
 	else
 		*check = -1;
 	return (1);
 }
 
-int	is_flags_error(t_pf_formats *formats)
+int	pf_is_flags_error(t_pf_formats *formats)
 {
-	if (formats -> zero_fill == 1 && formats -> left_justify == 1)
-		formats -> zero_fill = 0;
-	if (formats -> space_sign == 1 && formats -> plus_sign == 1)
-		formats -> space_sign = 0;
 	if ((formats -> fs != 'd' && formats -> fs != 'i')
 		&& (formats -> space_sign == 1))
 		return (-1);
