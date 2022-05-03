@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 11:20:30 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:40:00 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/03 11:58:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int				pf_process_char_ap(t_pf_formats *formats, t_pf_str *data);
 int				pf_process_int_ap(t_pf_formats *formats, t_pf_str *data);
 int				pf_process_uint_ap(t_pf_formats *formats, t_pf_str *data);
 void			pf_set_output(t_pf_formats *formats, t_pf_str *data);
-void			pf_set_sign(t_pf_formats *formats, size_t *i);
-void			pf_set_alternate(t_pf_formats *formats);
+void			pf_set_sign_alter(t_pf_formats *formats,
+					t_pf_str *data, size_t *i);
 void			pf_set_width_pad(t_pf_formats *formats, t_pf_str *data);
 void			pf_set_char(t_pf_formats *formats, t_pf_str *data,
 					size_t *i);

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/28 11:20:23 by kshim             #+#    #+#             */
-/*   Updated: 2022/05/01 14:44:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/05/03 12:00:41 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,50 +18,40 @@ void	pf_set_output(t_pf_formats *formats, t_pf_str *data)
 	size_t	i;
 
 	i = 0;
-	if (formats -> zero_fill == 1
-		&& formats -> precision == 0 && formats -> zero_fill == 1)
+	if (formats -> zero_fill == 1 && formats -> precision == 0)
 	{
-		pf_set_sign(formats, &i);
+		pf_set_sign_alter(formats, data, &i);
 		pf_set_width_pad(formats, data);
 	}
 	else if (formats -> left_justify == 0)
 	{
 		pf_set_width_pad(formats, data);
-		pf_set_sign(formats, &i);
+		pf_set_sign_alter(formats, data, &i);
 	}
-	if ((formats -> alternate == 1 && *(data -> processed_ap) != '0')
-		|| formats -> fs == 'p')
-		pf_set_alternate(formats);
 	if (formats -> left_justify == 1)
-		pf_set_sign(formats, &i);
+		pf_set_sign_alter(formats, data, &i);
 	pf_set_char(formats, data, &i);
 	if (formats -> left_justify == 1)
 		pf_set_width_pad(formats, data);
 	return ;
 }
 
-void	pf_set_sign(t_pf_formats *formats, size_t *i)
+void	pf_set_sign_alter(t_pf_formats *formats, t_pf_str *data, size_t *i)
 {
+	if (formats -> neg_value == 1)
 	{
-		if (formats -> neg_value == 1)
-		{
-			write(1, "-", 1);
-			(*i)++;
-		}
-		else if (formats -> plus_sign == 1 || formats -> space_sign == 1)
-		{
-			if (formats -> plus_sign == 1)
-				write(1, "+", 1);
-			else if (formats -> space_sign == 1)
-				write(1, " ", 1);
-		}
+		write(1, "-", 1);
+		(*i)++;
 	}
-	return ;
-}
-
-void	pf_set_alternate(t_pf_formats *formats)
-{
-	if (formats -> alternate == 1 || formats -> fs == 'p')
+	else if (formats -> plus_sign == 1 || formats -> space_sign == 1)
+	{
+		if (formats -> plus_sign == 1)
+			write(1, "+", 1);
+		else if (formats -> space_sign == 1)
+			write(1, " ", 1);
+	}
+	if ((formats -> alternate == 1 && *(data -> processed_ap) != '0')
+		|| formats -> fs == 'p')
 	{
 		write(1, "0", 1);
 		if (formats -> fs == 'x' || formats -> fs == 'p')
