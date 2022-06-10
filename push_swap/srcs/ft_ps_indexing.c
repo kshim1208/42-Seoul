@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:02:22 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 16:06:22 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/10 16:45:54 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	ft_ps_indexing_rec(t_detower *list, t_d_list **pos, t_d_list *node, unsigne
 	t_d_list	*prev;
 	t_d_list	*next;
 
-	point = point / 2;
+	if (point <= 1)
+		point = 1;
+	else
+		point = point / 2;
 	prev = (*pos)-> prev;
 	next = (*pos)-> next;
 	if (prev == NULL)
@@ -50,24 +53,17 @@ void	ft_ps_indexing_rec(t_detower *list, t_d_list **pos, t_d_list *node, unsigne
 		if (((t_value *)(node -> content))-> value
 			< ((t_value *)((*pos)-> content))-> value)
 			ft_deque_add_prev_node(list, *pos, node);
+/* point 2에서 (세번 째 값)에서 내려올 떄 이 밑 조건문에서 의도하지 않은 동작함 */
+/* 그리고 거기서 한 번 값이 잘못 할당되니 재귀적으로 전부 값이 꼬이는 것 같음 */
+/* 이 부분 수정하면 정상 동작할 것 같음 */
 		else if (((t_value *)((*pos)-> content))-> value
-				 < ((t_value *)(node -> content)) ->value)
+				 < ((t_value *)(node -> content)) ->value
 			ft_deque_add_next_node(list, *pos, node);
 		return ;
 	}
 	else	
 	{
-		if (((t_value *)(node -> content))-> value
-			< ((t_value *)(prev -> content))-> value)
-		{
-			ft_ps_indexing_relocate(pos, point, 0);
-		}
-		else if (((t_value *)(next -> content))-> value
-			< ((t_value *)(node -> content))-> value)
-		{
-			ft_ps_indexing_relocate(pos, point, 1);
-		}
-		else if (((t_value *)(prev -> content))-> value 
+		if (((t_value *)(prev -> content))-> value 
 			< ((t_value *)(node -> content))-> value
 			< ((t_value *)((*pos)-> content))-> value)
 		{
@@ -81,7 +77,13 @@ void	ft_ps_indexing_rec(t_detower *list, t_d_list **pos, t_d_list *node, unsigne
 			ft_deque_add_next_node(list, *pos, node);
 			return ;
 		}
-	}
+		else if (((t_value *)(node -> content))-> value
+			< ((t_value *)(prev -> content))-> value)
+			ft_ps_indexing_relocate(pos, point, 0);
+		else if (((t_value *)(next -> content))-> value
+			< ((t_value *)(node -> content))-> value)
+			ft_ps_indexing_relocate(pos, point, 1);
+	} 	
 	ft_ps_indexing_rec(list, pos, node, point);
 	return ;
 }
