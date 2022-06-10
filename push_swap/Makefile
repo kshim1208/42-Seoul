@@ -50,7 +50,7 @@ clean:
 	$(RM) $(RMFLAGS) $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
-	make -C $(LIBDIR) fclean
+	make -C $(LIBDIR) flean
 	$(RM) $(RMFLAGS) $(NAME)
 
 re: 
