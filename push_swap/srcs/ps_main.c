@@ -1,47 +1,91 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ps_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:19:28 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/07 15:31:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/10 15:20:15 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "../libft/ft_printf.h"
+#include "unistd.h"
 
-void	test_print_values(t_detower *st_a);
+/*
+void		push_swap(t_detower *st_a, t_detower *st_b, t_detower *list, unsigned int num);
+*/
+
+static void	ft_ps_free_memory(t_detower *st_a, t_detower *st_b, t_detower *list);
+static void	exit_error(t_detower *st_a, t_detower *st_b, t_detower *list);
+static void	test_print_values(t_detower *st_a);
 
 int	main(int argc, char **argv)
 {
-	t_detower	*st_a;
-	/*t_deque	*answer 명령어들 출력 전에 리스트에 저장하고, rr, rrr, ss 최적화 가능할 경우 수행*/
-	if (argc < 2)
-		return (0); /* exit 함수로 stderr에 출력하도록 해야하나? exit 함수 기능 및 stderr에 출력하는 법 파악 */
-	if (ft_ps_check_argv(argc, argv) != 1)
-		return (0);
+	t_detower		*st_a;
+	t_detower		*st_b;
+	t_detower		*list;
+	unsigned int	num;
+
+	num = 0;
 	st_a = ft_dequetower();
-	if (st_a == NULL)
-		return (0);
-	if (ft_ps_parse_argv(argc, argv, &st_a) != 1)
-		return (0);
+	st_b = ft_dequetower();
+	list = ft_dequetower();
+	if (st_a == NULL || st_b == NULL || list == NULL 
+		|| argc < 2 || !(ft_ps_check_argv(argc, argv)) 
+		|| !(ft_ps_parse_argv(argv, &st_a, list, &num)))
+		exit_error(st_a, st_b, list);
+/*
+	push_swap(st_a, st_b, list, num);
+		*/
 	test_print_values(st_a);
+	ft_printf("total : %d args\n", num);
+	test_print_values(list);
+	ft_printf("total : %d args\n", num);
+	ft_ps_free_memory(st_a, st_b, list);
 	return (1);
+}
+
+/*
+void	push_swap(t_detower *st_a, t_detower *st_b, t_detower *list, unsigned int num)
+{
+
+	push_x_to_y(st_a, st_b, opers, num);
+
+}
+*/
+
+
+void	ft_ps_free_memory(t_detower *st_a, t_detower *st_b, t_detower *list)
+{
+	if (st_a != NULL)
+		ft_free_detower(st_a);
+	if (st_b != NULL)
+		ft_free_detower(st_b);
+	if (list != NULL)
+		ft_free_detower(list);
+	return ;
+}
+
+void	exit_error(t_detower *st_a, t_detower *st_b, t_detower *list)
+{
+	ft_ps_free_memory(st_a, st_b, list);
+	write(2, "Error\n", 6);
+	exit(EXIT_FAILURE);
 }
 
 void	test_print_values(t_detower *st_a)
 {
-	t_list	*tmp;
+	t_d_list	*tmp;
 
 	tmp = st_a -> head;
 	while (tmp != NULL)
 	{
-		ft_printf("%d\n", *((int *)(tmp -> content)));
+		ft_printf("%d, ", (((t_value *)(tmp -> content))-> value));
 		tmp = tmp -> next;
 	}
-	ft_free_detower(st_a);
+	ft_printf("\n");
 	return ;
 }

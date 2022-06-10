@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:46:02 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/07 15:31:28 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/08 14:16:31 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ void	ft_free_split(char **splited)
 		splited[i] = NULL;
 		i++;
 	}
+	free(splited);
+	splited = NULL;
 	return ;
 }

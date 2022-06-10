@@ -6,11 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:07:29 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 15:20:28 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/07 15:35:18 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+#include "../libft/ft_printf.h"
 
 t_detower	*ft_dequetower(void)
 {
@@ -24,55 +26,66 @@ t_detower	*ft_dequetower(void)
 	return (new_detower);
 }
 
-t_d_list	*ft_d_lstnew(void *content)
+int	ft_deque_add_back(t_detower *detower, int num)
 {
-	t_d_list	*new_list;
+	t_list	*new_lst;
+	int		*value;
 
-	new_list = (t_d_list *)malloc(sizeof(t_d_list));
-	if (new_list == NULL)
-		return (NULL);
-	new_list -> content = content;
-	new_list -> prev = NULL;
-	new_list -> next = NULL;
-	return (new_list);
+	value = (int *)malloc(sizeof(int));
+	if (value == NULL)
+		return (0);
+	*value = num;
+	new_lst = ft_lstnew(value);
+	if (new_lst == NULL)
+		return (0);
+	ft_lstadd_back(&(detower -> head), new_lst);
+	detower -> tail = new_lst;
+	return (1);
+}
+
+int	ft_deque_add_front(t_detower *detower, int num)
+{
+	t_list	*new_lst;
+	int		*value;
+
+	value = (int *)malloc(sizeof(int));
+	if (value == NULL)
+		return (0);
+	*value = num;
+	new_lst = ft_lstnew(value);
+	if (new_lst == NULL)
+		return (0);
+	ft_lstadd_front(&(detower -> head), new_lst);
+	return (1);
 }
 
 void	ft_free_detower(t_detower *detower)
 {
-	t_d_list	*lst;
+	t_list	*lst;
+	void	(*del)(void *);
 
 	lst = detower -> head;
+	del = ft_ps_content_del;
 	if (lst != NULL)
-		ft_d_lstclear(&lst, &ft_ps_content_del);
+		ft_lstclear(&lst, del);
 	detower -> head = NULL;
 	detower -> tail = NULL;
+	ft_printf("%p\n", detower);
 	free(detower);
 	detower = NULL;
+	ft_printf("%p\n", detower);
 	return ;
 }
 
 void	ft_ps_content_del(void *content)
 {
-	t_value	*content_value;
+	int	*value;
 
-	content_value = (t_value *)content;
-	content_value -> index = 0;
-	free(content_value);
-	content_value = NULL;
-	return ;
-}
-
-void	ft_d_lstclear(t_d_list **lst, void (*del)(void *))
-{
-	t_d_list	*now;
-
-	now = NULL;
-	while (*lst != NULL)
-	{
-		now = (*lst)-> next;
-		ft_d_lstdelone(*lst, del);
-		*lst = now;
-	}
-	*lst = NULL;
+	value = (int *)content;
+	ft_printf("%p\n", value);
+	*value = 0;
+	free(value);
+	value = NULL;
+	ft_printf("%p\n", value);
 	return ;
 }
