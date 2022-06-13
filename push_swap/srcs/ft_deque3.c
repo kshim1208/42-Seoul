@@ -6,13 +6,14 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 11:56:25 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 15:23:01 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:57:07 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ft_deque_add_prev_node(t_detower *detower, t_d_list *pos, t_d_list *new_elem)
+void	ft_deque_add_prev_node(t_detower *detower,
+		t_d_list *pos, t_d_list *new_elem)
 {
 	t_d_list	*nod;
 
@@ -29,7 +30,8 @@ void	ft_deque_add_prev_node(t_detower *detower, t_d_list *pos, t_d_list *new_ele
 	return ;
 }
 
-void	ft_deque_add_next_node(t_detower *detower, t_d_list *pos, t_d_list *new_elem)
+void	ft_deque_add_next_node(t_detower *detower,
+		t_d_list *pos, t_d_list *new_elem)
 {
 	t_d_list	*nod;
 

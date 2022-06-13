@@ -6,13 +6,13 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 10:02:22 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 16:56:55 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/13 14:43:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_ps_indexing(t_detower *list, t_value *content, unsigned int num)
+int	ft_ps_indexing(t_detower *index, t_value *content, unsigned int num)
 {
 	unsigned int	point;
 	t_d_list		*pos;
@@ -22,84 +22,73 @@ int	ft_ps_indexing(t_detower *list, t_value *content, unsigned int num)
 	if (node == NULL)
 		return (0);
 	point = num;
-	pos = list -> tail;
+	pos = index -> tail;
 	if (point == 0)
 	{
-		list -> head = node;
-		list -> tail = node;
+		index -> head = node;
+		index -> tail = node;
 	}
 	else
 	{
 		point = point / 2;
-		ft_ps_indexing_relocate(&pos, point, 0);
-		ft_ps_indexing_rec(list, &pos, node, point);
+		ft_ps_indexing_relocate(&pos, point, NULL, 0);
+		if (ft_ps_indexing_rec(index, &pos, node, point) != 1)
+		{
+			ft_d_lstdelone(node, NULL);
+			return (0);
+		}
 	}
 	return (1);
 }
 
-void	ft_ps_indexing_rec(t_detower *list, t_d_list **pos, t_d_list *node, unsigned int point)
+int	ft_ps_indexing_rec(t_detower *index, t_d_list **pos,
+		t_d_list *node, unsigned int point)
 {
-	t_d_list	*prev;
-	t_d_list	*next;
+	t_node_val	*check;
 
-	if (point <= 1)
-		point = 1;
+	check = NULL;
+	if (ft_ps_indexing_node_val(*pos, node, &check) != 1)
+		return (0);
+	point = ft_ps_indexing_point(*pos, check, point);
+	if (point == 0)
+		return (0);
+	if ((*pos)-> prev == NULL || (*pos)-> next == NULL)
+	{
+		ft_ps_indexing_side(index, *pos, node, check);
+		return (1);
+	}
 	else
-		point = point / 2;
-	prev = (*pos)-> prev;
-	next = (*pos)-> next;
-	if (prev == NULL && next == NULL)
 	{
-		if (((t_value *)(node -> content))-> value
-			< ((t_value *)((*pos)-> content))-> value)
-			ft_deque_add_prev_node(list, *pos, node);
-		else if (((t_value *)((*pos)-> content))-> value
-			< ((t_value *)(node -> content))-> value)
-			ft_deque_add_next_node(list, *pos, node);
-		return ;
+		if (ft_ps_indexing_normal(index, *pos, node, check) != 0)
+			return (1);
+		if (check -> node_val < check -> prev_val)
+			ft_ps_indexing_relocate(pos, point, check, 0);
+		else if (check -> next_val < check -> node_val)
+			ft_ps_indexing_relocate(pos, point, check, 1);
 	}
-	else if (prev == NULL)
-	{
-		if (((t_value *)(node -> content))-> value
-			< ((t_value *)((*pos)-> content))-> value)
-			ft_deque_add_prev_node(list, *pos, node);
-		else if (((t_value *)((*pos)-> content))-> value
-			< ((t_value *)(node -> content))-> value
-			< ((t_value *)(next -> content))-> value)
-			ft_deque_add_next_node(list, *pos, node);
-		else if (((t_value *)(next -> content))-> value
-			< ((t_value *)(node -> content))-> value)
-			ft_deque_add_next_node(list, *pos, node);
-		return ;
-	}
-	else	
-	{
-		if (((t_value *)(prev -> content))-> value 
-			< ((t_value *)(node -> content))-> value
-			< ((t_value *)((*pos)-> content))-> value)
-		{
-			ft_deque_add_prev_node(list, *pos, node);
-			return ;
-		}
-		else if (((t_value *)((*pos)-> content))-> value 
-			< ((t_value *)(node -> content))-> value 
-			< ((t_value *)(next -> content))-> value)
-		{
-			ft_deque_add_next_node(list, *pos, node);
-			return ;
-		}
-		else if (((t_value *)(node -> content))-> value
-			< ((t_value *)(prev -> content))-> value)
-			ft_ps_indexing_relocate(pos, point, 0);
-		else if (((t_value *)(next -> content))-> value
-			< ((t_value *)(node -> content))-> value)
-			ft_ps_indexing_relocate(pos, point, 1);
-	} 	
-	ft_ps_indexing_rec(list, pos, node, point);
-	return ;
+	if (ft_ps_indexing_rec(index, pos, node, point) != 1)
+		return (0);
+	return (1);
 }
 
-void ft_ps_indexing_relocate(t_d_list **pos, unsigned int point, int flag)
+int	ft_ps_indexing_node_val(t_d_list *pos, t_d_list *node, t_node_val **check)
+{
+	(*check) = (t_node_val *)malloc(sizeof(t_node_val));
+	if ((*check) == NULL)
+		return (0);
+	(*check)-> pos_val = ((t_value *)(pos -> content))-> value;
+	(*check)-> node_val = ((t_value *)(node -> content))-> value;
+	(*check)-> prev_val = 0;
+	(*check)-> next_val = 0;
+	if (pos -> prev != NULL)
+		(*check)-> prev_val = ((t_value *)((pos -> prev)-> content))-> value;
+	if (pos -> next != NULL)
+		(*check)-> next_val = ((t_value *)((pos -> next)-> content))-> value;
+	return (1);
+}
+
+void	ft_ps_indexing_relocate(t_d_list **pos, unsigned int point,
+		t_node_val *check, int flag)
 {
 	unsigned int	i;
 
@@ -112,5 +101,18 @@ void ft_ps_indexing_relocate(t_d_list **pos, unsigned int point, int flag)
 			*pos = (*pos)-> next;
 		i++;
 	}
+	ft_ps_indexing_free_check(check);
+	return ;
+}
+
+void	ft_ps_indexing_free_check(t_node_val *check)
+{
+	if (check == NULL)
+		return ;
+	check -> pos_val = 0;
+	check -> node_val = 0;
+	check -> prev_val = 0;
+	check -> next_val = 0;
+	free(check);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:30:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 15:07:29 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/13 12:14:28 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	ft_deque_del_front(t_detower *detower)
 
 void	ft_d_lstdelone(t_d_list *lst, void (*del)(void *))
 {
-	if (del != NULL && lst -> content != NULL)
+	if (lst -> content != NULL && del != NULL)
 		del(lst -> content);
 	if (lst != NULL)
 		free(lst);

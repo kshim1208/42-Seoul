@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:27:58 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/13 14:41:34 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/10 15:18:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,18 @@ int	ft_ps_is_valid_char(char *str)
 				return (0);
 		}
 		i++;
-	}	
+	}
 	if ((str[i - 1] == '+' && str[i] == '\0' )
 		|| (str[i - 1] == '-' && str[i] == '\0'))
 		return (0);
 	return (1);
 }
 
-int	ft_ps_parse_argv(char **argv, t_detower **st_a,
-		t_detower *list, unsigned int *num)
+int	ft_ps_parse_argv(char **argv, t_detower **st_a, t_detower *list, unsigned int *num)
 {
-	int			i;
-	int			j;
-	char		**splitted;
+	int		i;
+	int		j;
+	char	**splitted;
 
 	i = 1;
 	while (argv[i] != NULL)
@@ -72,52 +71,52 @@ int	ft_ps_parse_argv(char **argv, t_detower **st_a,
 		while (splitted[j] != NULL)
 		{
 			if (ft_ps_set_splited_argv(splitted[j], *st_a, list, num) != 1)
-			{
-				ft_free_split(splitted);
-				return (0);
-			}
+				break ;
 			j++;
+		}
+		if (splitted[j] != NULL)
+		{
+			ft_free_split(splitted);
+			return (0);
 		}
 		ft_free_split(splitted);
 	}
-	test_print_values(*st_a);
-	test_print_values(list);
-	ft_ps_set_val_to_index(list);	
-	ft_free_index_list(list);
 	return (1);
 }
 
-int	ft_ps_set_splited_argv(char *str, t_detower *st_a,
-		t_detower *index, unsigned int *num)
+int	ft_ps_set_splited_argv(char *str, t_detower *st_a, t_detower *list, unsigned int *num)
 {
 	int			value;
 	t_d_list	*node;
 
-	if (!(ft_atoi_push_swap(str, &value))
-		|| !(ft_ps_deque_init_value(&node, value)))
+	if (ft_atoi_push_swap(str, &value) != 1)
+		return (0);
+	node = st_a -> head;
+	while (node != NULL)
+	{
+		if (((t_value *)node -> content) -> value == value)
+			return (0);
+		node = node -> next;
+	}
+	if (ft_ps_deque_init_value(&node, value) != 1)
 		return (0);
 	ft_deque_add_back(st_a, node);
-	if (ft_ps_indexing(index, ((t_value *)(node -> content)), *num) != 1)
-	{
-		ft_free_index_list(index);
+	if (ft_ps_indexing(list, ((t_value *)(node -> content)), *num) != 1)
 		return (0);
-	}
 	(*num)++;
 	return (1);
 }
 
-void	ft_ps_set_val_to_index(t_detower *index)
+int	ft_ps_deque_init_value(t_d_list **new_list, int value)
 {
-	t_d_list		*lst;
-	unsigned int	i;
+	t_value	*content;
 
-	lst = index -> head;
-	i = 0;
-	while (lst != NULL)
-	{
-		((t_value *)(lst -> content))-> index = i;
-		lst = lst -> next;
-		i++;
-	}
-	return ;
+	content = (t_value *)malloc(sizeof(t_value));
+	if (content == NULL)
+		return (0);
+	content -> value = value;
+	*new_list = ft_d_lstnew(content);
+	if (*new_list == NULL)
+		return (0);
+	return (1);
 }

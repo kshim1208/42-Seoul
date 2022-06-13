@@ -15,7 +15,7 @@ INCLUDE = ./includes
 
 SRCSDIR = ./srcs/
 
-SRCS_FILES = ps_main.c funcs_argv.c ft_ps_indexing.c ft_deque.c ft_deque2.c ft_deque3.c push_swap_util.c
+SRCS_FILES = ps_main.c funcs_argv.c ft_ps_indexing.c ft_ps_indexing2.c ft_deque.c ft_deque2.c ft_deque3.c push_swap_util.c
 
 BONUS_SRCS_FILES =
 
@@ -50,7 +50,7 @@ clean:
 	$(RM) $(RMFLAGS) $(OBJS) $(BONUS_OBJS)
 
 fclean: clean
-	make -C $(LIBDIR) flean
+	make -C $(LIBDIR) fclean
 	$(RM) $(RMFLAGS) $(NAME)
 
 re: 

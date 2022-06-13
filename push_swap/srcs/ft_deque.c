@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 16:07:29 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 15:20:28 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/13 12:24:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	ft_free_detower(t_detower *detower)
 	detower -> head = NULL;
 	detower -> tail = NULL;
 	free(detower);
-	detower = NULL;
 	return ;
 }
 

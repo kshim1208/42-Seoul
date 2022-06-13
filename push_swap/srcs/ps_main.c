@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:19:28 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/10 15:20:15 by kshim            ###   ########.fr       */
+/*   Updated: 2022/06/13 15:56:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 #include "unistd.h"
 
 /*
-void		push_swap(t_detower *st_a, t_detower *st_b, t_detower *list, unsigned int num);
+static void	push_swap(t_detower *st_a, t_detower *st_b, t_detower *list, unsigned int num);
 */
 
 static void	ft_ps_free_memory(t_detower *st_a, t_detower *st_b, t_detower *list);
 static void	exit_error(t_detower *st_a, t_detower *st_b, t_detower *list);
-static void	test_print_values(t_detower *st_a);
 
 int	main(int argc, char **argv)
 {
@@ -42,21 +41,15 @@ int	main(int argc, char **argv)
 		*/
 	test_print_values(st_a);
 	ft_printf("total : %d args\n", num);
-	test_print_values(list);
-	ft_printf("total : %d args\n", num);
 	ft_ps_free_memory(st_a, st_b, list);
 	return (1);
 }
 
-/*
 void	push_swap(t_detower *st_a, t_detower *st_b, t_detower *list, unsigned int num)
 {
-
-	push_x_to_y(st_a, st_b, opers, num);
-
-}
-*/
-
+	
+	move_a_to_b();
+i
 
 void	ft_ps_free_memory(t_detower *st_a, t_detower *st_b, t_detower *list)
 {
@@ -66,6 +59,7 @@ void	ft_ps_free_memory(t_detower *st_a, t_detower *st_b, t_detower *list)
 		ft_free_detower(st_b);
 	if (list != NULL)
 		ft_free_detower(list);
+	system("leaks push_swap");
 	return ;
 }
 
