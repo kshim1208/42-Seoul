@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ps_indexing2.c                                  :+:      :+:    :+:   */
+/*   ft_ps_indexing2_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 12:32:51 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/06 12:07:19 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/06 12:15:43 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/checker_bonus.h"
 
 void	ft_ps_indexing_side(t_detower *index, t_d_list *pos,
 		t_d_list *node, t_node_val *check)

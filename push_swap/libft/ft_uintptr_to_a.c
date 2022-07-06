@@ -73,7 +73,7 @@ static char	process_num_base(uintptr_t num, int upper)
 	char	c;
 
 	c = 0;
-	if (num >= 0 && num <= 9)
+	if (num <= 9)
 		c = num + '0';
 	else if (num >= 10 && num <= 15)
 	{

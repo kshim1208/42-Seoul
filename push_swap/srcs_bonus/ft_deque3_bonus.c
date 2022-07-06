@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_deque3.c                                        :+:      :+:    :+:   */
+/*   ft_deque3_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 11:56:25 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/23 15:06:18 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/05 13:39:49 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/checker_bonus.h"
 
 void	ft_deque_add_prev_node(t_detower *detower,
 		t_d_list *pos, t_d_list *new_elem)

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_deque2.c                                        :+:      :+:    :+:   */
+/*   ft_deque2_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 10:30:11 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/25 11:07:39 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/05 13:39:50 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "../include/checker_bonus.h"
 
 void	ft_deque_add_back(t_detower *detower, t_d_list *new_elem)
 {
