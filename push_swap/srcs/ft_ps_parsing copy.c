@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ps_parsing_bonus.c                              :+:      :+:    :+:   */
+/*   ft_ps_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:32:16 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 16:14:01 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:13:45 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/checker_bonus.h"
+#include "../include/push_swap.h"
 #include "../libft/libft.h"
 
 int	ft_ps_check_argv(int argc, char **argv)

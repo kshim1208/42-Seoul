@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_sorting_node_move_bonus.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 13:55:56 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/05 13:40:00 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:14:53 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	ft_ps_sort_del_b_add_f(t_ps_struct_list *struct_list, int flag)
 	if (flag == 0)
 	{
 		stack = struct_list -> st_a;
-		oper_code = 8;
+		oper_code = rra;
 	}
 	else
 	{
 		stack = struct_list -> st_b;
-		oper_code = 9;
+		oper_code = rrb;
 	}
 	node = stack -> tail;
 	ft_deque_del_back(stack, 0);
@@ -45,13 +45,13 @@ int	ft_ps_sort_del_f_add_f(t_ps_struct_list *struct_list, int flag)
 
 	if (flag == 0)
 	{
-		oper_code = 4;
+		oper_code = pb;
 		stack1 = struct_list -> st_a;
 		stack2 = struct_list -> st_b;
 	}
 	else
 	{
-		oper_code = 3;
+		oper_code = pa;
 		stack1 = struct_list -> st_b;
 		stack2 = struct_list -> st_a;
 	}
@@ -71,12 +71,12 @@ int	ft_ps_sort_del_f_add_b(t_ps_struct_list *struct_list, int flag)
 
 	if (flag == 0)
 	{
-		oper_code = 5;
+		oper_code = ra;
 		stack = struct_list -> st_a;
 	}
 	else
 	{
-		oper_code = 6;
+		oper_code = rb;
 		stack = struct_list -> st_b;
 	}
 	tmp = stack -> head;
@@ -94,13 +94,13 @@ int	ft_ps_sort_swap(t_ps_struct_list *struct_list, int flag)
 	t_detower	*stack;
 	int			oper_code;
 
-	oper_code = 0;
+	oper_code = sa;
 	if (flag == 0)
 		stack = struct_list -> st_a;
 	else
 	{
 		stack = struct_list -> st_b;
-		oper_code = 1;
+		oper_code = sb;
 	}
 	old_head = stack -> head;
 	if (old_head == NULL || old_head -> next == NULL)

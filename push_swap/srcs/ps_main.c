@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:19:28 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 11:45:13 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 17:21:14 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,18 @@ int	main(int argc, char **argv)
 			ft_dequetower(), ft_dequetower(), ft_dequetower());
 	if (struct_list == NULL || struct_list -> st_a == NULL
 		|| struct_list -> st_b == NULL || struct_list -> list == NULL
-		|| !(ft_ps_check_argv(argc, argv))
-		|| !(ft_ps_parse_argv(
-				argv, &(struct_list -> st_a), struct_list -> list, &num)))
+		|| !(ft_ps_check_argv(argc, argv, struct_list, &num)))
 		exit_error(struct_list);
 	if (ft_ps_is_sorted(struct_list -> st_a, 0, num, 0) == 1)
 	{
 		ft_ps_free_memory(struct_list);
-		return (1);
+		return (0);
 	}
 	if (!(push_swap(struct_list, num)))
 		exit_error(struct_list);
 	ft_ps_print_oper_list(struct_list -> list);
 	ft_ps_free_memory(struct_list);
-	return (1);
+	return (0);
 }
 
 int	push_swap(t_ps_struct_list *struct_list, unsigned int num)

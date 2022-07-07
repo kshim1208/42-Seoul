@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:01:55 by kshim             #+#    #+#             */
-/*   Updated: 2022/06/25 11:51:00 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 15:55:58 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/* 함수 용도가 2개인데, 이름에서 그걸 다 파악하기 힘듬 */
 int	ft_atoi_push_swap(const char *str, int *num)
 {
 	long long	ret;
@@ -33,6 +34,13 @@ int	ft_atoi_push_swap(const char *str, int *num)
 	else
 		return (0);
 	return (1);
+}
+
+int	ft_is_sign(int c)
+{
+	if (c == '+' || c == '-')
+		return (1);
+	return (0);
 }
 
 int	ft_ps_deque_init_value(t_d_list **new_list, int value)

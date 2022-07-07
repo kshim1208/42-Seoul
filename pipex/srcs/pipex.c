@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:12:50 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/06 17:25:48 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 17:13:38 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,42 @@
 
 #include "../libft/ft_printf.h"
 
-/*
-
-static int	pipex(t_ft_px_data	*px_data);
-
-*/
-
+/* error code는 어쩔까? */
 int	main(int argc, char **argv, char **envp)
 {
 	t_ft_px_data	*px_data;
+	int				i;
+	int				fd[2];
+	int				pid;
 
+	i = 2;
 	px_data = ft_px_init_px_data(argc, envp);
 	if (px_data == NULL)
-		return (0);
-
-	ft_px_parse_commands(argv, px_data);
-
-	/*
-	pipex(px_data);
-*/
-
-	int i;
-	int j;
-
-	i = 0;
-	while ((px_data -> cmd_argv)[i] != NULL)
 	{
-		j = 0;
-		while (px_data -> cmd_argv[i][j] != NULL)
+		/* error-free fucn */
+		return (1);
+	}
+	while (i < argc)
+	{
+		pid = fork();
+		if (pid < 0)
 		{
-			ft_printf("%s\n", (px_data -> cmd_argv)[i][j]);
-			j++;
+			//
+			return (1);
+		}
+		else if (fork() == 0)
+		{
+			ft_px_check_command(argv[i], px_data);
+		}
+		else
+		{
+		
 		}
 		i++;
 	}
-	i = 0;
-	while ((px_data -> cmd_paths)[i] != NULL)
-	{
-		ft_printf("%s\n", (px_data -> cmd_paths)[i]);
-		i++;
-	}
-
+	ft_px_parse_commands(argv, px_data);
+	return (1);
+}
 
 	/*
 	ft_px_check_files(argv, px_data);
@@ -71,13 +66,3 @@ int	main(int argc, char **argv, char **envp)
 		fork로 명령어 1을 수행하기 위한 (터미널과 명령어가 프로세스를 만드는 것으로 확인함. 재확인해보자.) 자식 프로세스 만들고
 		부모는 wait로 대기 (자식에서는 wait 동작 안함)
 		*/
-	return (1);
-}
-/*
-
-int	pipex(t_ft_px_data *px_data)
-{
-}
-
-*/
-

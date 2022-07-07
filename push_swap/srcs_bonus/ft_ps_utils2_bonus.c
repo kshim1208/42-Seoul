@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_utils2_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:01:47 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/05 13:40:09 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:24:11 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/checker_bonus.h"
+
+int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
 
 int	ft_ps_is_sorted(t_detower *stack,
 		unsigned int start, unsigned int num, int descend)
@@ -73,27 +81,27 @@ void	ft_ps_print_oper_list(t_detower *list)
 
 void	ft_ps_print_operation(unsigned int oper_code)
 {
-	if (oper_code == 0)
+	if (oper_code == sa)
 		ft_printf("sa\n");
-	else if (oper_code == 1)
+	else if (oper_code == sb)
 		ft_printf("sb\n");
-	else if (oper_code == 2)
+	else if (oper_code == ss)
 		ft_printf("ss\n");
-	else if (oper_code == 3)
+	else if (oper_code == pa)
 		ft_printf("pa\n");
-	else if (oper_code == 4)
+	else if (oper_code == pb)
 		ft_printf("pb\n");
-	else if (oper_code == 5)
+	else if (oper_code == ra)
 		ft_printf("ra\n");
-	else if (oper_code == 6)
+	else if (oper_code == rb)
 		ft_printf("rb\n");
-	else if (oper_code == 7)
+	else if (oper_code == rr)
 		ft_printf("rr\n");
-	else if (oper_code == 8)
+	else if (oper_code == rra)
 		ft_printf("rra\n");
-	else if (oper_code == 9)
+	else if (oper_code == rra)
 		ft_printf("rrb\n");
-	else if (oper_code == 10)
+	else if (oper_code == rrr)
 		ft_printf("rrr\n");
 	return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_main_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:46:41 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 11:43:56 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 13:59:27 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
-	return (1);
+	return (0);
 }
 
 void	ft_ps_bn_parse_operation(t_ps_struct_list *struct_list)

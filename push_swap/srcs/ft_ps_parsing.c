@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:32:16 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/06 09:02:30 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 17:25:10 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 #include "../libft/libft.h"
 
-int	ft_ps_check_argv(int argc, char **argv)
+int	ft_ps_check_argv(int argc, char **argv,
+			t_ps_struct_list *struct_list, unsigned int *num)
 {
 	int	i;
 
@@ -22,6 +23,7 @@ int	ft_ps_check_argv(int argc, char **argv)
 	{
 		if (ft_ps_is_valid_char(argv[i]) != 1)
 			return (0);
+		ft_ps_parse_argv(argv[i], struct_list, num);
 		i++;
 	}
 	return (1);
@@ -36,37 +38,35 @@ int	ft_ps_is_valid_char(char *str)
 	{
 		if (i >= 0)
 		{
-			if ((str[i] < '0' || str[i] > '9') && str[i] != '+' && str[i] != '-'
-				&& str[i] != ' ')
+			if (ft_isdigit(str[i]) == 0 && ft_is_sign(str[i] == 0)
+				&& ft_isspace(str[i]) == 0)
 				return (0);
 		}
 		if (i >= 1)
 		{
-			if ((str[i - 1] == '+' && str[i] == '+' )
-				|| (str[i - 1] == '-' && str[i] == '-')
-				|| ((str[i - 1] >= '0' && str[i - 1] <= '9') && str[i] == '+')
-				|| ((str[i - 1] >= '0' && str[i - 1] <= '9') && str[i] == '-'))
+			if ((ft_is_sign(str[i - 1]) == 1
+					&& (ft_isdigit(str[i]) == 0 && ft_isspace(str[i]) == 0))
+				|| (ft_isdigit(str[i - 1]) == 1 && ft_is_sign(str[i]) == 1))
 				return (0);
 		}
 		i++;
 	}	
-	if ((str[i - 1] == '+' && str[i] == '\0' )
-		|| (str[i - 1] == '-' && str[i] == '\0'))
+	if ((ft_is_sign(str[i - 1]) == 1 && str[i] == '\0' ))
 		return (0);
 	return (1);
 }
 
-int	ft_ps_parse_argv(char **argv, t_detower **st_a,
-t_detower *list, unsigned int *num)
+int	ft_ps_parse_argv(char *str, t_ps_struct_list *struct_list, unsigned int *num)
 {
 	int			i;
 	int			j;
 	char		**splitted;
 
 	i = 1;
-	while (argv[i] != NULL)
+	while (str[i] != NULL)
 	{
-		splitted = ft_split(argv[i++], ' ');
+		if ()
+		splitted = ft_split(str, ' ');
 		if (splitted == NULL)
 			return (0);
 		j = 0;

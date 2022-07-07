@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:26:03 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/06 12:09:16 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:15:25 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,21 @@
 # endif
 
 # include <stdlib.h>
+
+typedef enum e_operation
+{
+	sa,
+	sb,
+	ss,
+	pa,
+	pb,
+	ra,
+	rb,
+	rr,
+	rra,
+	rrb,
+	rrr
+}	t_oper;
 
 typedef struct s_d_list
 {
@@ -210,10 +225,12 @@ int					ft_ps_sort_only_4(t_ps_struct_list *struct_list,
 int					ft_ps_sort_only_4_node_move(t_ps_struct_list *struct_list);
 
 int					ft_atoi_push_swap(const char *str, int *value);
+int					ft_is_sign(int c);
 int					ft_ps_deque_init_value(t_d_list **new_list, int num);
 void				ft_free_split(char **splited);
 void				ft_ps_free_index_list(t_detower **index);
 
+int					ft_isspace(int c);
 int					ft_ps_is_sorted(t_detower *stack, unsigned int start,
 						unsigned int num, int descend);
 unsigned int		ft_ps_value_of_stack_node(t_detower *stack,

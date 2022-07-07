@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:01:55 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/05 13:40:07 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/07 16:15:40 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int	ft_atoi_push_swap(const char *str, int *num)
 	else
 		return (0);
 	return (1);
+}
+
+int	ft_is_sign(int c)
+{
+	if (c == '+' || c == '-')
+		return (1);
+	return (0);
 }
 
 int	ft_ps_deque_init_value(t_d_list **new_list, int value)
