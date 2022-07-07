@@ -6,7 +6,7 @@
 #    By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/05 14:14:37 by kshim             #+#    #+#              #
-#    Updated: 2022/07/06 14:54:29 by kshim            ###   ########.fr        #
+#    Updated: 2022/07/06 16:58:53 by kshim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ SRCSDIR = ./srcs/
 
 BONUS_SRCSDIR = ./srcs_bonus/
 
-SRCS_FILES = pipex.c ft_px_util.c ft_px_data_structs.c
+SRCS_FILES = pipex.c ft_px_util.c ft_px_data_structs.c ft_px_parse_argv.c
 
 BONUS_SRCS_FILES = 
 
