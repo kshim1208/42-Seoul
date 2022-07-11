@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 15:14:08 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 16:02:46 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/11 17:29:16 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_d_list
 	struct s_d_list	*next;
 }				t_d_list;
 
-typedef union u_value_to_sort
+typedef struct s_value
 {
 	int				value;
 	unsigned int	index;
@@ -78,13 +78,15 @@ typedef struct s_ps_sort_data
 	unsigned int	rb;
 }				t_sort_data;
 
-int					ft_ps_check_argv(int argc, char **argv);
-int					ft_ps_is_valid_char(char *str);
-int					ft_ps_parse_argv(char **argv, t_detower **st_a,
-						t_detower *list, unsigned int *num);
+int					ft_ps_check_argv(char **argv,
+						t_ps_struct_list *struct_list, unsigned int *num);
+int					ft_ps_is_valid_char(char *str, int *single);
+int					ft_ps_parse_argv(char *str, t_ps_struct_list *struct_list,
+						unsigned int *num, int single);
+int					ft_ps_parse_multi_str(char *str,
+						t_ps_struct_list *struct_list, unsigned int *num);		
 int					ft_ps_set_splited_argv(char *str, t_detower *st_a,
 						t_detower *index, unsigned int *num);
-void				ft_ps_set_val_to_index(t_detower *list);
 
 int					ft_ps_indexing(
 						t_detower *index, t_value *content, unsigned int num);
@@ -104,6 +106,7 @@ int					ft_ps_indexing_point(t_d_list *pos, t_node_val *check,
 						t_d_list *node, unsigned int point);
 int					ft_ps_indexing_normal(t_detower *index, t_d_list *pos,
 						t_d_list *node, t_node_val *check);
+void				ft_ps_set_val_to_index(t_detower *list);
 
 t_detower			*ft_dequetower(void);
 t_d_list			*ft_d_lstnew(void *content);
@@ -226,6 +229,8 @@ int					ft_ps_is_sorted(t_detower *stack, unsigned int start,
 unsigned int		ft_ps_value_of_stack_node(t_detower *stack,
 						unsigned int node);
 void				ft_ps_print_oper_list(t_detower *list);
-void				ft_ps_print_operation(unsigned int oper_code);
+void				ft_ps_print_oper_table_set(char *[]);
+int					ft_ps_print_operation(unsigned int oper_code,
+						char *arr[]);
 
 #endif

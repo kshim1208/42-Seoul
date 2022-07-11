@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ps_utils_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:01:55 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 16:15:40 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:39:23 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/checker_bonus.h"
+#include "push_swap.h"
 
 int	ft_atoi_push_swap(const char *str, int *num)
 {
@@ -33,13 +33,6 @@ int	ft_atoi_push_swap(const char *str, int *num)
 	else
 		return (0);
 	return (1);
-}
-
-int	ft_is_sign(int c)
-{
-	if (c == '+' || c == '-')
-		return (1);
-	return (0);
 }
 
 int	ft_ps_deque_init_value(t_d_list **new_list, int value)
@@ -82,4 +75,25 @@ void	ft_ps_free_index_list(t_detower **index)
 	(*index)-> head = NULL;
 	(*index)-> tail = NULL;
 	return ;
+}
+
+int	ft_ps_is_sorted(t_detower *stack,
+		unsigned int start, unsigned int num, int descend)
+{
+	unsigned int	i;
+	t_d_list		*tmp;
+
+	tmp = stack -> head;
+	i = 1;
+	while (tmp != NULL && i < num)
+	{
+		if ((*(unsigned int *)tmp-> content) != (start))
+			return (0);
+		tmp = tmp -> next;
+		if (descend == 0)
+			start = start + i;
+		else
+			start = start - i;
+	}
+	return (1);
 }

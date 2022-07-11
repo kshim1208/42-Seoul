@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_px_data_structs.c                               :+:      :+:    :+:   */
+/*   ft_ps_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/06 10:32:54 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/11 14:49:47 by kshim            ###   ########.fr       */
+/*   Created: 2022/07/08 13:24:57 by kshim             #+#    #+#             */
+/*   Updated: 2022/07/08 13:25:39 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "../include/push_swap.h"
 
-t_ft_px_data	*ft_px_init_px_data(int argc, char **envp)
+int	ft_isspace(int c)
 {
-	t_ft_px_data	*px_data;
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
 
-	px_data = (t_ft_px_data *)malloc(sizeof(t_ft_px_data));
-	if (px_data == NULL)
-		return (NULL);
-	px_data -> ac = argc;
-	if (ft_px_init_paths(envp, px_data) == 0)
-		return (NULL);
-	if (ft_px_init_cmd_paths(px_data) == 0)
-		return (NULL);
-	return (px_data);
+int	ft_is_sign(int c)
+{
+	if (c == '+' || c == '-')
+		return (1);
+	return (0);
 }

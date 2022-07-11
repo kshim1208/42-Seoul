@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:04:41 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/05 13:39:49 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:45:09 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ft_ps_bn_checker(t_ps_struct_list *struct_list, char *operation)
 	oper_code = ft_ps_bn_check_oper(operation);
 	if (oper_code == -1)
 		return (0);
-	if (oper_code <= 3 && !(ft_ps_bn_do_oper_0_to_3(struct_list, oper_code)))
+	if (oper_code <= pa && !(ft_ps_bn_do_oper_0_to_3(struct_list, oper_code)))
 		return (0);
-	if ((oper_code >= 4 && oper_code <= 7)
+	if ((oper_code >= pb && oper_code <= rr)
 		&& !(ft_ps_bn_do_oper_4_to_7(struct_list, oper_code)))
 		return (0);
-	if ((oper_code >= 8 && oper_code <= 10)
+	if ((oper_code >= rra && oper_code <= rrr)
 		&& !(ft_ps_bn_do_oper_8_to_10(struct_list, oper_code)))
 		return (0);
 	return (1);
@@ -59,23 +59,23 @@ int	ft_ps_bn_check_oper(char *operation)
 
 int	ft_ps_bn_do_oper_0_to_3(t_ps_struct_list *struct_list, int oper_code)
 {
-	if (oper_code == 0)
+	if (oper_code == sa)
 	{
 		if (!(ft_ps_sort_swap(struct_list, 0)))
 			return (0);
 	}
-	else if (oper_code == 1)
+	else if (oper_code == sb)
 	{
 		if (!(ft_ps_sort_swap(struct_list, 1)))
 			return (0);
 	}
-	else if (oper_code == 2)
+	else if (oper_code == ss)
 	{
 		if (!(ft_ps_sort_swap(struct_list, 0))
 			|| !(ft_ps_sort_swap(struct_list, 1)))
 			return (0);
 	}
-	else if (oper_code == 3)
+	else if (oper_code == pa)
 	{
 		if (!(ft_ps_sort_del_f_add_f(struct_list, 1)))
 			return (0);
@@ -85,22 +85,22 @@ int	ft_ps_bn_do_oper_0_to_3(t_ps_struct_list *struct_list, int oper_code)
 
 int	ft_ps_bn_do_oper_4_to_7(t_ps_struct_list *struct_list, int oper_code)
 {
-	if (oper_code == 4)
+	if (oper_code == pb)
 	{
 		if (!(ft_ps_sort_del_f_add_f(struct_list, 0)))
 			return (0);
 	}
-	else if (oper_code == 5)
+	else if (oper_code == ra)
 	{
 		if (!(ft_ps_sort_del_f_add_b(struct_list, 0)))
 			return (0);
 	}
-	else if (oper_code == 6)
+	else if (oper_code == rb)
 	{
 		if (!(ft_ps_sort_del_f_add_b(struct_list, 1)))
 			return (0);
 	}
-	else if (oper_code == 7)
+	else if (oper_code == rr)
 	{
 		if (!(ft_ps_sort_del_f_add_b(struct_list, 0))
 			|| !(ft_ps_sort_del_f_add_b(struct_list, 1)))
@@ -111,17 +111,17 @@ int	ft_ps_bn_do_oper_4_to_7(t_ps_struct_list *struct_list, int oper_code)
 
 int	ft_ps_bn_do_oper_8_to_10(t_ps_struct_list *struct_list, int oper_code)
 {
-	if (oper_code == 8)
+	if (oper_code == rra)
 	{
 		if (!(ft_ps_sort_del_b_add_f(struct_list, 0)))
 			return (0);
 	}
-	else if (oper_code == 9)
+	else if (oper_code == rrb)
 	{
 		if (!(ft_ps_sort_del_b_add_f(struct_list, 1)))
 			return (0);
 	}
-	else if (oper_code == 10)
+	else if (oper_code == rrr)
 	{
 		if (!(ft_ps_sort_del_b_add_f(struct_list, 0))
 			|| !(ft_ps_sort_del_b_add_f(struct_list, 1)))

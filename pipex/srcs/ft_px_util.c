@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 12:46:21 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/06 17:16:29 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/11 13:50:03 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	ft_px_init_paths(char **envp, t_ft_px_data *px_data)
 
 int	ft_px_init_cmd_paths(t_ft_px_data *px_data)
 {
-	px_data -> cmd_paths = (char **)malloc(sizeof(char *) * ((px_data -> ac) - 2 + 1));
+	px_data -> cmd_paths = (char *)malloc(sizeof(char *) * ((px_data -> ac) - 2 + 1));
 	if (px_data -> cmd_paths == NULL)
 		return (0);
-	(px_data -> cmd_paths)[px_data -> ac - 2] = NULL;
+	(px_data -> cmd_paths)[(px_data -> ac) - 2 + 1] = 0;
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ps_main.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/03 14:19:28 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 17:21:14 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 12:24:03 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 			ft_dequetower(), ft_dequetower(), ft_dequetower());
 	if (struct_list == NULL || struct_list -> st_a == NULL
 		|| struct_list -> st_b == NULL || struct_list -> list == NULL
-		|| !(ft_ps_check_argv(argc, argv, struct_list, &num)))
+		|| !(ft_ps_check_argv(argv, struct_list, &num)))
 		exit_error(struct_list);
 	if (ft_ps_is_sorted(struct_list -> st_a, 0, num, 0) == 1)
 	{

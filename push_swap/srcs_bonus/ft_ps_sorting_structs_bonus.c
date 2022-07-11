@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:00:34 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/05 13:40:05 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:37:29 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,4 @@ t_d_list	*ft_ps_sort_list_node_init(int flag)
 	new_node -> prev = NULL;
 	new_node -> next = NULL;
 	return (new_node);
-}
-
-void	ft_ps_free_sort_data(t_sort_data **sort_data)
-{
-	(*sort_data)-> pivot_a = 0;
-	(*sort_data)-> pivot_b = 0;
-	(*sort_data)-> pa = 0;
-	(*sort_data)-> pb = 0;
-	(*sort_data)-> ra = 0;
-	(*sort_data)-> rb = 0;
-	free(*sort_data);
-	*sort_data = NULL;
-	return ;
 }

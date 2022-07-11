@@ -6,11 +6,11 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 12:32:51 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 11:44:16 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:51:39 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/checker_bonus.h"
+#include "push_swap.h"
 
 void	ft_ps_indexing_side(t_detower *index, t_d_list *pos,
 		t_d_list *node, t_node_val *check)
@@ -87,4 +87,20 @@ int	ft_ps_indexing_point(t_d_list *pos, t_node_val *check,
 		return (0);
 	}
 	return (point);
+}
+
+void	ft_ps_set_val_to_index(t_detower *index)
+{
+	t_d_list		*lst;
+	unsigned int	i;
+
+	lst = index -> head;
+	i = 0;
+	while (lst != NULL)
+	{
+		((t_value *)(lst -> content))-> index = i;
+		lst = lst -> next;
+		i++;
+	}
+	return ;
 }

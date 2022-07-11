@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker_main_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kshim <student.42seoul.kr>                 +#+  +:+       +#+        */
+/*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:46:41 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/07 13:59:27 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/08 13:42:59 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,7 @@ int	main(int argc, char **argv)
 			ft_dequetower(), ft_dequetower(), ft_dequetower());
 	if (struct_list == NULL || struct_list -> st_a == NULL
 		|| struct_list -> st_b == NULL || struct_list -> list == NULL
-		|| !(ft_ps_check_argv(argc, argv))
-		|| !(ft_ps_parse_argv(
-				argv, &(struct_list -> st_a), struct_list -> list, &num)))
+		|| !(ft_ps_check_argv(argv, struct_list, &num)))
 		exit_error(struct_list);
 	ft_free_detower(&(struct_list -> list));
 	ft_ps_bn_parse_operation(struct_list);
@@ -52,9 +50,9 @@ void	ft_ps_bn_parse_operation(t_ps_struct_list *struct_list)
 {
 	char	*operation;
 
-	operation = NULL;
 	while (1)
 	{
+		operation = NULL;
 		operation = get_next_line(0);
 		if (operation == NULL)
 			break ;
@@ -64,7 +62,6 @@ void	ft_ps_bn_parse_operation(t_ps_struct_list *struct_list)
 			exit_error(struct_list);
 		}
 		free(operation);
-		operation = NULL;
 	}
 	return ;
 }
