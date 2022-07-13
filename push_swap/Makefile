@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: kshim <student.42seoul.kr>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/05 14:14:47 by kshim             #+#    #+#              #
+<<<<<<< HEAD
+#    Updated: 2022/07/13 10:17:06 by kshim            ###   ########.fr        #
+=======
 #    Updated: 2022/07/08 13:52:00 by kshim            ###   ########.fr        #
+>>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +20,7 @@ CHECKER = checker
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-DEBUG =
+DEBUG = 
 RM = rm
 RMFLAGS = -f
 

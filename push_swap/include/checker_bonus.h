@@ -6,16 +6,16 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 17:26:03 by kshim             #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/07/13 10:39:24 by kshim            ###   ########.fr       */
+=======
 /*   Updated: 2022/07/08 13:52:11 by kshim            ###   ########.fr       */
+>>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHECKER_BONUS_H
 # define CHECKER_BONUS_H
-
-# ifndef FT_PRINTF_H
-#  include "../libft/ft_printf.h"
-# endif
 
 # include <stdlib.h>
 

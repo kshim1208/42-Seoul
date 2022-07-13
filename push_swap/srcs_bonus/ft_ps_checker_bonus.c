@@ -6,11 +6,16 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:04:41 by kshim             #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2022/07/13 11:02:14 by kshim            ###   ########.fr       */
+=======
 /*   Updated: 2022/07/08 13:45:09 by kshim            ###   ########.fr       */
+>>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/checker_bonus.h"
+#include "../libft/libft.h"
 
 int	ft_ps_bn_checker(t_ps_struct_list *struct_list, char *operation)
 {
