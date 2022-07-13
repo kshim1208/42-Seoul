@@ -6,11 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:35:45 by kshim             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/07/12 17:04:31 by kshim            ###   ########.fr       */
-=======
-/*   Updated: 2022/07/11 17:09:42 by kshim            ###   ########.fr       */
->>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
+/*   Updated: 2022/07/13 13:37:52 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +17,6 @@
 	/* access로 파일 존재 및 읽기 권한 필요 (실행은?) 
 	 마지막 파일에는 파일 존재 및 쓰기 권한 필요 (실행이랑 읽기는?) */
 
-<<<<<<< HEAD
 
 int	ft_px_input_file(char *i_file)
 {
@@ -30,23 +25,6 @@ int	ft_px_input_file(char *i_file)
 		int	fd_in;
 
 		fd_in = -1;
-=======
-int	ft_px_check_files(char **argv, t_ft_px_data *px_data)
-{
-	if (ft_px_input_file(argv[1]) != 0
-		|| ft_px_output_file(argv[(px_data -> ac) - 1]) != 0)
-		return (0);
-	return (1);
-}
-
-int	ft_px_input_file(char *i_file)
-{
-	int	fd_in;
-
-	fd_in = -1;
-	if (access(i_file, F_OK | R_OK) == 0)
-	{
->>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 		fd_in = open(i_file, O_RDONLY);
 		if (fd_in == -1)
 			return (0);
