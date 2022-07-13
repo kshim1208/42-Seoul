@@ -6,23 +6,14 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 14:01:47 by kshim             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/07/13 10:39:09 by kshim            ###   ########.fr       */
-=======
-/*   Updated: 2022/07/11 17:29:34 by kshim            ###   ########.fr       */
->>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
+/*   Updated: 2022/07/13 13:39:01 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
-<<<<<<< HEAD
 #include "../libft/ft_printf.h"
-=======
->>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 
 unsigned int	ft_ps_value_of_stack_node(t_detower *stack, unsigned int node)
-{
-	t_d_list		*tmp;
 	unsigned int	i;
 
 	tmp = stack -> head;
@@ -62,7 +53,6 @@ void	ft_ps_print_oper_list(t_detower *list)
 
 void	ft_ps_print_oper_table_set(char *arr[])
 {
-<<<<<<< HEAD
 	arr[sa] = "sa";
 	arr[sb]= "sb";
 	arr[ss]= "ss";
@@ -74,19 +64,6 @@ void	ft_ps_print_oper_table_set(char *arr[])
 	arr[rra]= "rra";
 	arr[rrb]= "rrb";
 	arr[rrr]= "rrr";
-=======
-	arr[sa] = "sa\0";
-	arr[sb]= "sb\0";
-	arr[ss]= "ss\0";
-	arr[pa]= "pa\0";
-	arr[pb]= "pb\0";
-	arr[ra]= "ra\0";
-	arr[rb]= "rb\0";
-	arr[rr]= "rr\0";
-	arr[rra]= "rra\0";
-	arr[rrb]= "rrb\0";
-	arr[rrr]= "rrr\0";
->>>>>>> 9ad55cae3be0a4e95bc561b8ca9f8a7477045b55
 	return ;
 }
 
