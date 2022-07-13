@@ -6,7 +6,7 @@
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 14:35:45 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/13 13:37:52 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/13 17:02:12 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,22 @@ int	ft_px_output_file(char *o_file)
 	int	fd_out;
 
 	fd_out = -1;
-	if (access(o_file, F_OK | W_OK) == 0)
-	{
-		fd_out = open(o_file, O_WRONLY);
-		if (fd_out == -1)
-			return (0);
-		dup2(fd_out, 1);
-		close(fd_out);
-	}
-	else
-	{
+	fd_out = open(o_file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+	if (fd_out == -1)
+		return (0);
+	dup2(fd_out, 1);
+	close(fd_out);
 		/* 새로 파일 만듬 -> stdout의 기본 기능인가? 찾아보기 */
-	}
+		/* bash에서는 file로 redirect할 때 파일이 없으면 새로 만든다. */
+		/* open 함수에 O_CREAT 옵션 주면 파일이 없을 때 만들 수 있다. */
+		/* O_TRUNC 옵션 쓰는 사람 있던데 기능 좀 파악해보기 */
+		/* -> 이미 있는 파일이고, 쓰기 가능이라면 현재 파일 내용 삭제하고 길이 0으로 만들기 */
+		/* bash 동작이랑 비교 */
+		/* 원래 존재하는 파일이라면 내용 지우고 쓰는 것으로 보임. O_TRUNC 옵션 추가하자 */
+
+		/* 파일 만들면서 동시에 권한도 줄 수는 없나? 하나하나 chmod하기 불편한데 */
+		/* O_CREAT 할 때 권한 줄 수 있었음. open() 참고 */
+
 	return (1);
 }
 

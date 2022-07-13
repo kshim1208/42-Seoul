@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex copy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshim <kshim@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:12:50 by kshim             #+#    #+#             */
-/*   Updated: 2022/07/13 17:23:25 by kshim            ###   ########.fr       */
+/*   Updated: 2022/07/13 16:59:32 by kshim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,14 @@ int	main(int argc, char **argv, char **envp)
 		/* 구조체 해제 */
 		return (1);
 	}
-	while(cmd_n < cmd_last)
-	{
-		pipe(&(fd[cmd_n * 2]) - 2);
-		cmd_n++;
-	}
-	cmd_n = 1;
 	while (cmd_n <= cmd_last)
 	{
 		pipe_read = (2 * cmd_n) - 2;
 		pipe_write = (2 * cmd_n) - 1;
+		if (cmd_n != cmd_last)
+		{
+			pipe(&(fd[pipe_read]));
+		}
 		pid = fork();
 		if (pid < 0)
 		{
